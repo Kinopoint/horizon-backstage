@@ -4,8 +4,8 @@ Production-ready static media archive for Horizon Festival Ballybunion 2026.
 
 ## What is included
 
-- Responsive gallery with real photo and video downloads
-- Optimized WebP previews, high-resolution JPEG downloads and H.264 MP4 films
+- Responsive gallery with high-quality photo and video sharing
+- Optimized WebP previews, share-ready JPEG files and H.264 MP4 films
 - Ballybunion guide, privacy and photo-usage pages
 - Metadata, Open Graph, JSON-LD, sitemap and robots rules
 - Privacy-safe data-layer measurement events
@@ -20,7 +20,7 @@ npm run verify
 npm run media:build -- "/absolute/path/to/horizon foto"
 ```
 
-The media build prefers edited JPEG/HEIC files, adds top-level drone JPEGs, and then includes RAW CR3 files only when no edited file with the same stem already exists. Camera originals are never modified. Generated previews are capped at 1600 px; downloadable JPEGs are capped at 2400 px. Videos are H.264/AAC MP4 with `faststart` and separate WebP posters.
+The media build prefers edited JPEG/HEIC files, adds top-level drone JPEGs, and then includes RAW CR3 files only when no edited file with the same stem already exists. Camera originals are never modified. Generated previews are capped at 1600 px; share-ready JPEGs are capped at 2400 px. Videos are H.264/AAC MP4 with `faststart` and separate WebP posters.
 
 ## Deployment
 

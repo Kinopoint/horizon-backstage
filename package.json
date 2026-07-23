@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "media:build": "bash scripts/optimize-media.sh",
+    "share-pages:build": "node scripts/write-share-pages.mjs",
     "test": "node --test tests/*.test.mjs",
     "verify": "node scripts/verify-site.mjs"
   },
@@ -12,4 +13,3 @@
     "node": ">=22"
   }
 }
-

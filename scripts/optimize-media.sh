@@ -36,6 +36,10 @@ add_still() {
   if [[ "$slug" == "untitled-frame" ]]; then return; fi
   # Same Jenny Greene frame as img-6687, exported with different compression.
   if [[ "$slug" == "tezza-2439" ]]; then return; fi
+  # Duplicate exports or near-identical bursts retained in source but excluded publicly.
+  case "$slug" in
+    995edbaf-bcee-40a5-895a-868f6dfc3e72|b0794460-8ad2-4dd3-8b2c-9ec16d52dd3c|img-0506|img-0507) return ;;
+  esac
   if grep -Fqx "$slug" "$USED_STEMS"; then return; fi
   printf '%s\n' "$slug" >> "$USED_STEMS"
   printf '%s|%s\n' "$slug" "$file" >> "$SOURCE_LIST"
@@ -75,7 +79,7 @@ while IFS='|' read -r slug source; do
   width="$(sips -g pixelWidth "$full" 2>/dev/null | awk '/pixelWidth/{print $2}')"
   height="$(sips -g pixelHeight "$full" 2>/dev/null | awk '/pixelHeight/{print $2}')"
   captured_at="$(capture_date "$source")"
-  printf '{"id":"%s","type":"photo","src":"assets/media/web/%s.webp?v=2","download":"assets/media/full/%s.jpg?v=2","width":%s,"height":%s,"capturedAtRaw":"%s"}\n' "$slug" "$slug" "$slug" "$width" "$height" "$captured_at" >> "$MANIFEST"
+  printf '{"id":"%s","type":"photo","src":"assets/media/web/%s.webp?v=2","shareSrc":"assets/media/full/%s.jpg?v=2","width":%s,"height":%s,"capturedAtRaw":"%s"}\n' "$slug" "$slug" "$slug" "$width" "$height" "$captured_at" >> "$MANIFEST"
 done < "$SOURCE_LIST"
 
 video_index=0
@@ -96,7 +100,7 @@ while IFS= read -r -d '' source; do
   width="${dims%x*}"
   height="${dims#*x}"
   captured_at="$(capture_date "$source")"
-  printf '{"id":"%s","type":"video","src":"assets/media/video/%s.mp4?v=2","poster":"assets/media/posters/%s.webp?v=2","download":"assets/media/video/%s.mp4?v=2","width":%s,"height":%s,"duration":%s,"capturedAtRaw":"%s"}\n' "$slug" "$slug" "$slug" "$slug" "$width" "$height" "$duration" "$captured_at" >> "$MANIFEST"
+  printf '{"id":"%s","type":"video","src":"assets/media/video/%s.mp4?v=2","poster":"assets/media/posters/%s.webp?v=2","shareSrc":"assets/media/video/%s.mp4?v=2","width":%s,"height":%s,"duration":%s,"capturedAtRaw":"%s"}\n' "$slug" "$slug" "$slug" "$slug" "$width" "$height" "$duration" "$captured_at" >> "$MANIFEST"
 done < <(find "$EDITED_DIR" -maxdepth 1 -type f \( -iname '*.mov' -o -iname '*.mp4' -o -iname '*.m4v' \) -print0 | sort -z)
 
 node scripts/write-gallery-data.mjs "$MANIFEST"

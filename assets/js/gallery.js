@@ -4,16 +4,17 @@ const galleryElement = document.querySelector('[data-gallery]');
 const dayFilterButtons = [...document.querySelectorAll('[data-day-filter]')];
 const typeFilterButtons = [...document.querySelectorAll('[data-type-filter]')];
 const dialog = document.querySelector('[data-dialog]');
+const dialogStage = dialog.querySelector('.dialog-stage');
 const dialogMedia = document.querySelector('[data-dialog-media]');
 const dialogTitle = document.querySelector('[data-dialog-title]');
 const dialogType = document.querySelector('[data-dialog-type]');
 const dialogPosition = document.querySelector('[data-dialog-position]');
-const dialogDownload = document.querySelector('[data-dialog-download]');
 const dialogPrevious = document.querySelector('[data-dialog-previous]');
 const dialogNext = document.querySelector('[data-dialog-next]');
 const shareDialog = document.querySelector('[data-share-dialog]');
 const shareTitle = document.querySelector('[data-share-title]');
-const shareDownload = document.querySelector('[data-share-download]');
+const shareStatus = document.querySelector('[data-share-status]');
+const shareFileButtons = [...shareDialog.querySelectorAll('[data-share-file]')];
 const dayOrder = ['day-1', 'day-2', 'day-3', 'setup'];
 
 let media = [];
@@ -22,6 +23,12 @@ let activeType = 'all';
 let activeItem = null;
 let sharedItem = null;
 let shareLocation = 'card';
+let swipeStart = null;
+let preparedFile = null;
+let sharePreparationId = 0;
+const galleryResizeObserver = new ResizeObserver((entries) => {
+  for (const { target } of entries) sizeGridCard(target);
+});
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (character) => ({
@@ -54,8 +61,7 @@ function itemMarkup(item) {
       <div class="media-body">
         <div><p class="media-date">${date}</p><h3>${title}</h3></div>
         <div class="media-actions">
-          <button class="button button-outline" type="button" data-share="${item.id}">Share</button>
-          <a class="button button-primary" href="${item.download}" download data-download="${item.id}">Download</a>
+          <button class="button button-primary" type="button" data-share="${item.id}">Share this moment</button>
         </div>
       </div>
     </article>`;
@@ -93,19 +99,42 @@ function groupMarkup(items) {
 }
 
 function render() {
+  galleryResizeObserver.disconnect();
   const filtered = filteredMedia();
   galleryElement.innerHTML = filtered.length
     ? groupMarkup(filtered)
     : '<p class="gallery-loading">No moments match these filters.</p>';
   bindVideoPreviews();
+  bindGridLayout();
   document.querySelector('[data-visible-count]').textContent = String(filtered.length);
-  document.querySelector('[data-total-count]').textContent = String(filtered.length);
+  document.querySelector('[data-total-count]').textContent = String(media.length);
 }
 
-function itemUrl(item) {
+function sizeGridCard(card) {
+  const grid = card.closest('.gallery-grid');
+  if (!grid) return;
+  const styles = getComputedStyle(grid);
+  const rowHeight = Number.parseFloat(styles.gridAutoRows);
+  const rowGap = Number.parseFloat(styles.rowGap);
+  const height = card.getBoundingClientRect().height;
+  card.style.gridRowEnd = `span ${Math.ceil((height + rowGap) / (rowHeight + rowGap))}`;
+}
+
+function bindGridLayout() {
+  for (const card of galleryElement.querySelectorAll('.media-card')) {
+    galleryResizeObserver.observe(card);
+    sizeGridCard(card);
+  }
+}
+
+function galleryItemUrl(item) {
   const url = new URL(location.href);
   url.hash = `media=${encodeURIComponent(item.id)}`;
   return url.href;
+}
+
+function shareUrl(item) {
+  return new URL(item.sharePath, document.baseURI).href;
 }
 
 async function copyText(value) {
@@ -124,71 +153,114 @@ async function copyText(value) {
   field.remove();
 }
 
-function shareCaption(item) {
-  return `${item.title} — Horizon Festival Ballybunion 2026\n#HorizonFestival #Ballybunion`;
+function shareCaption(item, platform = 'native') {
+  const mention = platform === 'instagram' || platform === 'native'
+    ? '\n@horizonfestivalballyb'
+    : '';
+  return `${item.title}\nHorizon Festival 2026 · Ballybunion, County Kerry${mention}\n#HorizonFestival #HorizonFestival2026 #Ballybunion`;
 }
 
 async function mediaFile(item) {
-  const response = await fetch(item.type === 'video' ? item.src : item.download);
+  const response = await fetch(item.shareSrc);
   if (!response.ok) throw new Error(`Media request failed: ${response.status}`);
   const blob = await response.blob();
   const extension = item.type === 'video' ? 'mp4' : 'jpg';
-  return new File([blob], `${item.id}.${extension}`, { type: blob.type || (item.type === 'video' ? 'video/mp4' : 'image/jpeg') });
+  return new File(
+    [blob],
+    `horizon-festival-${item.id}.${extension}`,
+    { type: blob.type || (item.type === 'video' ? 'video/mp4' : 'image/jpeg') }
+  );
 }
 
-async function nativeShare(item, platform = 'native') {
+async function nativeFileShare(item, platform) {
+  if (!preparedFile || !navigator.share || !navigator.canShare) return false;
+  if (!navigator.canShare({ files: [preparedFile] })) return false;
+  const caption = shareCaption(item, platform);
+  const captionCopy = copyText(`${caption}\n${shareUrl(item)}`);
+  showToast(`Caption copied · choose ${platform === 'native' ? 'your app' : platform}`);
+  const nativeResult = navigator.share({
+    files: [preparedFile],
+    title: item.title,
+    text: caption
+  });
+  const [nativeOutcome] = await Promise.allSettled([nativeResult, captionCopy]);
+  if (nativeOutcome.status === 'rejected') throw nativeOutcome.reason;
+  return true;
+}
+
+async function nativeLinkShare(item) {
   if (!navigator.share) return false;
-  const shareData = { title: item.title, text: shareCaption(item), url: itemUrl(item) };
-  if (platform !== 'native') {
-    const file = await mediaFile(item);
-    const fileData = { files: [file], title: item.title, text: shareCaption(item) };
-    if (navigator.canShare?.(fileData)) {
-      showToast(`Choose ${platform === 'instagram' ? 'Instagram' : 'TikTok'} in the share menu`);
-      await navigator.share(fileData);
-      return true;
-    }
-  }
-  if (platform === 'native') {
-    await navigator.share(shareData);
-    return true;
-  }
-  return false;
+  await navigator.share({
+    title: item.title,
+    text: shareCaption(item),
+    url: shareUrl(item)
+  });
+  return true;
+}
+
+async function prepareShareFile(item, preparationId) {
+  preparedFile = null;
+  shareStatus.textContent = 'Preparing the high-quality file…';
+  for (const button of shareFileButtons) button.disabled = true;
+  const file = await mediaFile(item);
+  if (preparationId !== sharePreparationId || sharedItem?.id !== item.id) return;
+  preparedFile = file;
+  shareStatus.textContent = `${item.type === 'video' ? 'Video' : 'Photo'} ready · caption will be copied`;
+  for (const button of shareFileButtons) button.disabled = false;
 }
 
 function openShare(item, locationName) {
   sharedItem = item;
   shareLocation = locationName;
   shareTitle.textContent = `${item.dayLabel} · ${item.title}`;
-  shareDownload.href = item.download;
-  shareDownload.download = '';
   if (!shareDialog.open) shareDialog.showModal();
-  track('share_menu_opened', { media_id: item.id, media_type: item.type, location: locationName });
+  const preparationId = ++sharePreparationId;
+  prepareShareFile(item, preparationId).catch(() => {
+    if (preparationId !== sharePreparationId || sharedItem?.id !== item.id) return;
+    shareStatus.textContent = 'File hand-off is unavailable · link sharing is ready';
+    for (const button of shareFileButtons) button.disabled = false;
+  });
+  track('share_menu_opened', {
+    media_id: item.id,
+    media_type: item.type,
+    location: locationName
+  });
+}
+
+async function desktopPlatformFallback(item, platform) {
+  const captionAndLink = `${shareCaption(item, platform)}\n${shareUrl(item)}`;
+  if (platform === 'facebook') {
+    open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl(item))}`,
+      '_blank',
+      'noopener,noreferrer'
+    );
+  } else {
+    const destination = platform === 'instagram'
+      ? 'https://www.instagram.com/'
+      : 'https://www.tiktok.com/upload';
+    open(destination, '_blank', 'noopener,noreferrer');
+  }
+  await copyText(captionAndLink);
+  showToast('Caption and link copied');
 }
 
 async function shareToPlatform(platform) {
   if (!sharedItem) return;
   const item = sharedItem;
-  const url = itemUrl(item);
   try {
     if (platform === 'copy') {
-      await copyText(url);
-      showToast('Direct media link copied');
-    } else if (platform === 'facebook') {
-      open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
+      await copyText(`${shareCaption(item)}\n${shareUrl(item)}`);
+      showToast('Caption and link copied');
     } else if (platform === 'native') {
-      if (!await nativeShare(item)) {
-        await copyText(url);
-        showToast('Sharing is unavailable; link copied instead');
+      const shared = await nativeFileShare(item, platform) || await nativeLinkShare(item);
+      if (!shared) {
+        await copyText(`${shareCaption(item)}\n${shareUrl(item)}`);
+        showToast('Sharing unavailable · caption and link copied');
       }
     } else {
-      const shouldShareFile = matchMedia('(pointer: coarse)').matches;
-      const shared = shouldShareFile && await nativeShare(item, platform);
-      if (!shared) {
-        const destination = platform === 'instagram' ? 'https://www.instagram.com/' : 'https://www.tiktok.com/upload';
-        open(destination, '_blank', 'noopener,noreferrer');
-        await copyText(`${shareCaption(item)}\n${url}`);
-        showToast('Caption and link copied');
-      }
+      const shared = await nativeFileShare(item, platform);
+      if (!shared) await desktopPlatformFallback(item, platform);
     }
     track('media_shared', {
       media_id: item.id,
@@ -196,9 +268,24 @@ async function shareToPlatform(platform) {
       share_platform: platform,
       location: shareLocation
     });
-    if (platform !== 'native') shareDialog.close();
+    shareDialog.close();
   } catch (error) {
-    if (error.name !== 'AbortError') showToast('Sharing could not be completed');
+    if (error.name === 'AbortError') {
+      track('share_cancelled', {
+        media_id: item.id,
+        media_type: item.type,
+        share_platform: platform,
+        location: shareLocation
+      });
+      return;
+    }
+    showToast('Sharing could not be completed');
+    track('share_failed', {
+      media_id: item.id,
+      media_type: item.type,
+      share_platform: platform,
+      location: shareLocation
+    });
   }
 }
 
@@ -209,13 +296,10 @@ function openItem(item) {
   dialogTitle.textContent = item.title;
   dialogType.textContent = `${item.dayLabel} · ${item.dayDate} · ${item.type === 'video' ? `${Math.round(item.duration)} sec film` : 'Photograph'}`;
   dialogPosition.textContent = `${position + 1} of ${items.length}`;
-  dialogDownload.href = item.download;
-  dialogDownload.download = '';
-  dialogDownload.textContent = item.type === 'video' ? 'Download MP4' : 'Download JPEG';
   dialogMedia.innerHTML = item.type === 'video'
     ? `<video src="${item.src}" poster="${item.poster}" controls playsinline preload="metadata" aria-label="${escapeHtml(item.alt)}"></video>`
-    : `<img src="${item.src}" width="${item.width}" height="${item.height}" alt="${escapeHtml(item.alt)}">`;
-  history.replaceState(null, '', itemUrl(item));
+    : `<img src="${item.shareSrc}" width="${item.width}" height="${item.height}" alt="${escapeHtml(item.alt)}">`;
+  history.replaceState(null, '', galleryItemUrl(item));
   if (!dialog.open) dialog.showModal();
   track('media_opened', {
     media_id: item.id,
@@ -249,24 +333,29 @@ function setFilter(buttons, selected, property) {
   render();
 }
 
-function previewVideo(video, play) {
+async function previewVideo(video, play) {
+  const card = video.closest('.media-card');
   if (play) {
     video.preload = 'auto';
-    video.play().catch(() => undefined);
+    await video.play();
+    card.classList.add('is-playing');
   } else {
     video.pause();
     video.currentTime = 0;
+    card.classList.remove('is-playing');
   }
 }
 
 function bindVideoPreviews() {
   for (const video of galleryElement.querySelectorAll('.media-preview')) {
     const card = video.closest('.media-card');
-    card.addEventListener('mouseenter', () => previewVideo(video, true));
-    card.addEventListener('mouseleave', () => previewVideo(video, false));
-    card.addEventListener('focusin', () => previewVideo(video, true));
+    const start = () => previewVideo(video, true).catch(() => card.classList.remove('is-playing'));
+    const stop = () => previewVideo(video, false);
+    card.addEventListener('mouseenter', start);
+    card.addEventListener('mouseleave', stop);
+    card.addEventListener('focusin', start);
     card.addEventListener('focusout', (event) => {
-      if (!card.contains(event.relatedTarget)) previewVideo(video, false);
+      if (!card.contains(event.relatedTarget)) stop();
     });
   }
 }
@@ -282,11 +371,6 @@ galleryElement.addEventListener('click', (event) => {
     const item = media.find((candidate) => candidate.id === shareButton.dataset.share);
     if (item) openShare(item, 'card');
   }
-  const downloadLink = event.target.closest('[data-download]');
-  if (downloadLink) {
-    const item = media.find((candidate) => candidate.id === downloadLink.dataset.download);
-    track('media_downloaded', { media_id: item?.id, media_type: item?.type, media_title: item?.title, location: 'card' });
-  }
 });
 
 dayFilterButtons.forEach((button) => button.addEventListener('click', () => {
@@ -294,6 +378,7 @@ dayFilterButtons.forEach((button) => button.addEventListener('click', () => {
   setFilter(dayFilterButtons, activeDay, 'dayFilter');
   track('gallery_filtered', { filter_dimension: 'festival_day', filter_name: activeDay });
 }));
+
 typeFilterButtons.forEach((button) => button.addEventListener('click', () => {
   activeType = button.dataset.typeFilter;
   setFilter(typeFilterButtons, activeType, 'typeFilter');
@@ -301,39 +386,52 @@ typeFilterButtons.forEach((button) => button.addEventListener('click', () => {
 }));
 
 document.querySelector('[data-dialog-close]').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+dialog.addEventListener('click', (event) => {
+  if (event.target === dialog) dialog.close();
+});
 dialog.addEventListener('close', () => {
   dialogMedia.innerHTML = '';
   activeItem = null;
-  if (location.hash.startsWith('#media=')) history.replaceState(null, '', `${location.pathname}${location.search}`);
+  if (location.hash.startsWith('#media=')) {
+    history.replaceState(null, '', `${location.pathname}${location.search}`);
+  }
 });
 dialogPrevious.addEventListener('click', () => moveDialog(-1));
 dialogNext.addEventListener('click', () => moveDialog(1));
+dialogStage.addEventListener('pointerdown', (event) => {
+  swipeStart = { x: event.clientX, y: event.clientY };
+});
+dialogStage.addEventListener('pointerup', (event) => {
+  if (!swipeStart) return;
+  const horizontal = event.clientX - swipeStart.x;
+  const vertical = event.clientY - swipeStart.y;
+  swipeStart = null;
+  if (Math.abs(horizontal) > 55 && Math.abs(vertical) < 70) {
+    moveDialog(horizontal > 0 ? -1 : 1);
+  }
+});
 document.addEventListener('keydown', (event) => {
   if (!dialog.open || shareDialog.open) return;
   if (event.key === 'ArrowLeft') moveDialog(-1);
   if (event.key === 'ArrowRight') moveDialog(1);
 });
 addEventListener('hashchange', openHashItem);
-dialogDownload.addEventListener('click', () => {
-  if (activeItem) track('media_downloaded', { media_id: activeItem.id, media_type: activeItem.type, media_title: activeItem.title, location: 'dialog' });
-});
+
 document.querySelector('[data-dialog-share]').addEventListener('click', () => {
   if (activeItem) openShare(activeItem, 'dialog');
 });
-
 document.querySelector('[data-share-close]').addEventListener('click', () => shareDialog.close());
-shareDialog.addEventListener('click', (event) => { if (event.target === shareDialog) shareDialog.close(); });
+shareDialog.addEventListener('click', (event) => {
+  if (event.target === shareDialog) shareDialog.close();
+});
 shareDialog.querySelectorAll('[data-share-platform]').forEach((button) => {
   button.addEventListener('click', () => shareToPlatform(button.dataset.sharePlatform));
 });
-shareDownload.addEventListener('click', () => {
-  if (sharedItem) {
-    track('media_downloaded', { media_id: sharedItem.id, media_type: sharedItem.type, media_title: sharedItem.title, location: 'share_menu' });
-    shareDialog.close();
-  }
+shareDialog.addEventListener('close', () => {
+  sharePreparationId += 1;
+  sharedItem = null;
+  preparedFile = null;
 });
-shareDialog.addEventListener('close', () => { sharedItem = null; });
 
 async function initialize() {
   const response = await fetch('assets/data/gallery.json');

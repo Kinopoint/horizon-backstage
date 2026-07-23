@@ -33,13 +33,16 @@ for (const relative of htmlFiles) {
 
 const gallery = JSON.parse(await readFile(join(root, 'assets/data/gallery.json'), 'utf8'));
 if (gallery.length < 3) failures.push('gallery contains fewer than three media records');
+if (new Set(gallery.map((item) => item.id)).size !== gallery.length) failures.push('gallery contains duplicate ids');
+if (new Set(gallery.map((item) => item.title)).size !== gallery.length) failures.push('gallery contains duplicate titles');
 const dayOrder = { 'day-1': 1, 'day-2': 2, 'day-3': 3, setup: 4 };
 let previousSortKey = '';
 for (const item of gallery) {
-  for (const key of ['src', 'download']) {
+  for (const key of ['src', 'shareSrc']) {
     try { await access(join(root, item[key].split('?')[0])); } catch { failures.push(`${item.id}: missing ${key}`); }
   }
-  if (!item.alt || !item.title) failures.push(`${item.id}: missing accessible metadata`);
+  if (!item.alt || !item.title || !item.description) failures.push(`${item.id}: missing accessible metadata`);
+  if (/frame \d+|backstage vertical film/i.test(item.title)) failures.push(`${item.id}: title is not curated`);
   if (!dayOrder[item.festivalDay] || !item.dayLabel || !item.dayDate) failures.push(`${item.id}: missing festival day metadata`);
   if (!['metadata', 'curated'].includes(item.dateSource) || Number.isNaN(Date.parse(item.capturedAt))) failures.push(`${item.id}: invalid capture metadata`);
   const expectedOrientation = item.width === item.height ? 'square' : item.width > item.height ? 'landscape' : 'portrait';
@@ -47,6 +50,15 @@ for (const item of gallery) {
   const sortKey = `${dayOrder[item.festivalDay]}-${item.capturedAt}-${item.id}`;
   if (previousSortKey && sortKey.localeCompare(previousSortKey) < 0) failures.push(`${item.id}: gallery data is not chronologically sorted`);
   previousSortKey = sortKey;
+  const sharePage = join(root, item.sharePath, 'index.html');
+  try {
+    const html = await readFile(sharePage, 'utf8');
+    const canonical = `https://kinopoint.github.io/horizon-backstage/${item.sharePath}`;
+    if (!html.includes(`<link rel="canonical" href="${canonical}">`)) failures.push(`${item.id}: share page canonical mismatch`);
+    if (!html.includes(`<meta property="og:url" content="${canonical}">`)) failures.push(`${item.id}: share page Open Graph URL mismatch`);
+  } catch {
+    failures.push(`${item.id}: missing share page`);
+  }
 }
 
 async function walk(directory) {
@@ -64,6 +76,17 @@ for (const file of await walk(join(root, 'assets/media'))) {
   const size = (await stat(file)).size;
   if (/\/web\//.test(file) && size > 900_000) failures.push(`${file}: web image exceeds 900 KB`);
   if (/\/video\//.test(file) && size > 40_000_000) failures.push(`${file}: video exceeds 40 MB`);
+}
+
+const publicSource = await Promise.all([
+  'index.html',
+  'privacy/index.html',
+  'photo-usage/index.html',
+  'assets/js/gallery.js',
+  'docs/tracking-plan.md'
+].map((file) => readFile(join(root, file), 'utf8')));
+if (/\bdownload(?:ed|ing|s)?\b|data-download/i.test(publicSource.join('\n'))) {
+  failures.push('public experience still contains file-saving controls or copy');
 }
 
 if (failures.length) {
