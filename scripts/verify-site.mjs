@@ -32,11 +32,20 @@ for (const relative of htmlFiles) {
 
 const gallery = JSON.parse(await readFile(join(root, 'assets/data/gallery.json'), 'utf8'));
 if (gallery.length < 3) failures.push('gallery contains fewer than three media records');
+const dayOrder = { 'day-1': 1, 'day-2': 2, 'day-3': 3, setup: 4 };
+let previousSortKey = '';
 for (const item of gallery) {
   for (const key of ['src', 'download']) {
-    try { await access(join(root, item[key])); } catch { failures.push(`${item.id}: missing ${key}`); }
+    try { await access(join(root, item[key].split('?')[0])); } catch { failures.push(`${item.id}: missing ${key}`); }
   }
   if (!item.alt || !item.title) failures.push(`${item.id}: missing accessible metadata`);
+  if (!dayOrder[item.festivalDay] || !item.dayLabel || !item.dayDate) failures.push(`${item.id}: missing festival day metadata`);
+  if (!['metadata', 'curated'].includes(item.dateSource) || Number.isNaN(Date.parse(item.capturedAt))) failures.push(`${item.id}: invalid capture metadata`);
+  const expectedOrientation = item.width === item.height ? 'square' : item.width > item.height ? 'landscape' : 'portrait';
+  if (item.orientation !== expectedOrientation) failures.push(`${item.id}: orientation does not match output dimensions`);
+  const sortKey = `${dayOrder[item.festivalDay]}-${item.capturedAt}-${item.id}`;
+  if (previousSortKey && sortKey.localeCompare(previousSortKey) < 0) failures.push(`${item.id}: gallery data is not chronologically sorted`);
+  previousSortKey = sortKey;
 }
 
 async function walk(directory) {

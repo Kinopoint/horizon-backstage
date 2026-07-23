@@ -32,9 +32,17 @@ add_still() {
   local stem slug
   stem="$(basename "${file%.*}")"
   slug="$(slugify "$stem")"
+  # A blank-named RAW file is an exact duplicate of img-1230.
+  if [[ "$slug" == "untitled-frame" ]]; then return; fi
+  # Same Jenny Greene frame as img-6687, exported with different compression.
+  if [[ "$slug" == "tezza-2439" ]]; then return; fi
   if grep -Fqx "$slug" "$USED_STEMS"; then return; fi
   printf '%s\n' "$slug" >> "$USED_STEMS"
   printf '%s|%s\n' "$slug" "$file" >> "$SOURCE_LIST"
+}
+
+capture_date() {
+  mdls -raw -name kMDItemContentCreationDate "$1" | tr -d '\000'
 }
 
 while IFS= read -r -d '' file; do add_still "$file"; done < <(
@@ -51,16 +59,23 @@ while IFS='|' read -r slug source; do
   full="$FULL_DIR/$slug.jpg"
   web="$WEB_DIR/$slug.webp"
   preview="$WORK_DIR/$slug-preview.jpg"
-  if [[ ! -s "$full" || ! -s "$web" ]]; then
-    sips -s format jpeg -s formatOptions 84 -Z 2400 "$source" --out "$full" >/dev/null
-    sips -Z 1600 "$full" --out "$preview" >/dev/null
-    cwebp -quiet -mt -q 78 -metadata none "$preview" -o "$web"
+  render_dir="$WORK_DIR/render-$slug"
+  mkdir -p "$render_dir"
+  qlmanage -t -s 2400 -o "$render_dir" "$source" >/dev/null 2>&1
+  rendered="$(find "$render_dir" -type f -print -quit)"
+  if [[ -z "$rendered" ]]; then
+    printf 'Quick Look could not render %s\n' "$source" >&2
+    exit 1
   fi
+  sips -s format jpeg -s formatOptions 84 "$rendered" --out "$full" >/dev/null
+  sips -Z 1600 "$full" --out "$preview" >/dev/null
+  cwebp -quiet -mt -q 78 -metadata none "$preview" -o "$web"
   jpegtran -copy none -optimize -outfile "$WORK_DIR/$slug-clean.jpg" "$full"
   mv "$WORK_DIR/$slug-clean.jpg" "$full"
   width="$(sips -g pixelWidth "$full" 2>/dev/null | awk '/pixelWidth/{print $2}')"
   height="$(sips -g pixelHeight "$full" 2>/dev/null | awk '/pixelHeight/{print $2}')"
-  printf '{"id":"%s","type":"photo","src":"assets/media/web/%s.webp","download":"assets/media/full/%s.jpg","width":%s,"height":%s}\n' "$slug" "$slug" "$slug" "$width" "$height" >> "$MANIFEST"
+  captured_at="$(capture_date "$source")"
+  printf '{"id":"%s","type":"photo","src":"assets/media/web/%s.webp?v=2","download":"assets/media/full/%s.jpg?v=2","width":%s,"height":%s,"capturedAtRaw":"%s"}\n' "$slug" "$slug" "$slug" "$width" "$height" "$captured_at" >> "$MANIFEST"
 done < "$SOURCE_LIST"
 
 video_index=0
@@ -80,7 +95,8 @@ while IFS= read -r -d '' source; do
   dims="$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "$target")"
   width="${dims%x*}"
   height="${dims#*x}"
-  printf '{"id":"%s","type":"video","src":"assets/media/video/%s.mp4","poster":"assets/media/posters/%s.webp","download":"assets/media/video/%s.mp4","width":%s,"height":%s,"duration":%s}\n' "$slug" "$slug" "$slug" "$slug" "$width" "$height" "$duration" >> "$MANIFEST"
+  captured_at="$(capture_date "$source")"
+  printf '{"id":"%s","type":"video","src":"assets/media/video/%s.mp4?v=2","poster":"assets/media/posters/%s.webp?v=2","download":"assets/media/video/%s.mp4?v=2","width":%s,"height":%s,"duration":%s,"capturedAtRaw":"%s"}\n' "$slug" "$slug" "$slug" "$slug" "$width" "$height" "$duration" "$captured_at" >> "$MANIFEST"
 done < <(find "$EDITED_DIR" -maxdepth 1 -type f \( -iname '*.mov' -o -iname '*.mp4' -o -iname '*.m4v' \) -print0 | sort -z)
 
 node scripts/write-gallery-data.mjs "$MANIFEST"

@@ -62,6 +62,10 @@
         "name": "Horizon Backstage 2026",
         "description": "Official photo and video archive from Horizon Festival Ballybunion 2026.",
         "url": "https://kinopoint.github.io/horizon-backstage/",
+        "dateCreated": "2026-07-10",
+        "dateModified": "2026-07-23",
+        "numberOfItems": 86,
+        "keywords": ["Horizon Festival", "Ballybunion", "County Kerry", "festival photography", "festival videos"],
         "about": {"@id": "https://www.horizonfestival.ie/#event-2026"},
         "isPartOf": {"@id": "https://www.horizonfestival.ie/#organization"}
       },
@@ -129,14 +133,29 @@
           <p class="section-intro">Every file is resized for the web, stripped of unnecessary metadata and available in a practical download format.</p>
         </div>
         <div class="gallery-tools">
-          <div class="filters" role="group" aria-label="Filter gallery">
-            <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
-            <button class="filter" type="button" data-filter="photo" aria-pressed="false">Photos</button>
-            <button class="filter" type="button" data-filter="video" aria-pressed="false">Videos</button>
+          <div class="filter-sets">
+            <div class="filter-set">
+              <span class="filter-label">Festival day</span>
+              <div class="filters" role="group" aria-label="Filter gallery by festival day">
+                <button class="filter is-active" type="button" data-day-filter="all" aria-pressed="true">All days</button>
+                <button class="filter" type="button" data-day-filter="day-1" aria-pressed="false">Day 1 · Fri 10</button>
+                <button class="filter" type="button" data-day-filter="day-2" aria-pressed="false">Day 2 · Sat 11</button>
+                <button class="filter" type="button" data-day-filter="day-3" aria-pressed="false">Day 3 · Sun 12</button>
+                <button class="filter" type="button" data-day-filter="setup" aria-pressed="false">Setup</button>
+              </div>
+            </div>
+            <div class="filter-set">
+              <span class="filter-label">Media</span>
+              <div class="filters" role="group" aria-label="Filter gallery by media type">
+                <button class="filter is-active" type="button" data-type-filter="all" aria-pressed="true">All media</button>
+                <button class="filter" type="button" data-type-filter="photo" aria-pressed="false">Photos</button>
+                <button class="filter" type="button" data-type-filter="video" aria-pressed="false">Videos</button>
+              </div>
+            </div>
           </div>
           <p class="gallery-count" aria-live="polite"><strong data-visible-count>0</strong> of <span data-total-count>0</span> moments</p>
         </div>
-        <div class="gallery-grid" data-gallery aria-live="polite">
+        <div class="gallery-groups" data-gallery aria-live="polite">
           <p class="gallery-loading">Loading the archive…</p>
         </div>
         <div class="gallery-more-wrap"><button class="button button-outline" type="button" data-show-more hidden>Show more moments</button></div>
@@ -159,9 +178,9 @@
         <p class="eyebrow dark">Made to be shared</p>
         <h2 id="how-title">Open. Download. Relive.</h2>
         <div class="steps">
-          <article><span>01</span><h3>Browse</h3><p>Filter photographs and films, then open any moment in a focused viewer.</p></article>
+          <article><span>01</span><h3>Browse</h3><p>Choose a festival day and media type, then open any moment in a focused viewer.</p></article>
           <article><span>02</span><h3>Download</h3><p>Save an optimized high-resolution copy without carrying the weight of the camera original.</p></article>
-          <article><span>03</span><h3>Share</h3><p>Use your device share sheet or copy a direct link to the gallery.</p></article>
+          <article><span>03</span><h3>Share</h3><p>Choose Instagram, TikTok, Facebook or your device share sheet from every photograph and film.</p></article>
         </div>
       </div>
     </section>
@@ -224,6 +243,23 @@
         <button class="button button-outline" type="button" data-dialog-share>Share</button>
       </div>
     </div>
+  </dialog>
+  <dialog class="share-dialog" data-share-dialog aria-labelledby="share-title">
+    <button class="share-close" type="button" data-share-close aria-label="Close sharing options">×</button>
+    <p class="eyebrow dark">Share this moment</p>
+    <h2 id="share-title">Choose where to share</h2>
+    <p class="share-item-title" data-share-title></p>
+    <div class="share-options">
+      <button class="share-option instagram" type="button" data-share-platform="instagram"><span aria-hidden="true">◎</span><strong>Instagram</strong><small>Share file or open Instagram</small></button>
+      <button class="share-option tiktok" type="button" data-share-platform="tiktok"><span aria-hidden="true">♪</span><strong>TikTok</strong><small>Share file or open upload</small></button>
+      <button class="share-option facebook" type="button" data-share-platform="facebook"><span aria-hidden="true">f</span><strong>Facebook</strong><small>Share the direct gallery link</small></button>
+      <button class="share-option more" type="button" data-share-platform="native"><span aria-hidden="true">↗</span><strong>More apps</strong><small>Open your device share sheet</small></button>
+    </div>
+    <div class="share-secondary">
+      <button class="button button-outline" type="button" data-share-platform="copy">Copy link</button>
+      <a class="button button-primary" href="#" download data-share-download>Download file</a>
+    </div>
+    <p class="share-help">On mobile, Instagram and TikTok are selected from the system share menu after the media file is prepared.</p>
   </dialog>
   <div class="toast" role="status" aria-live="polite" data-toast hidden></div>
   <script type="module" src="assets/js/gallery.js"></script>

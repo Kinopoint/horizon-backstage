@@ -35,13 +35,24 @@ test('gallery records point to optimized, downloadable media', async () => {
   assert.ok(gallery.some((item) => item.type === 'photo'));
   assert.equal(gallery.filter((item) => item.type === 'video').length, 3);
   assert.equal(new Set(gallery.map((item) => item.id)).size, gallery.length);
+  assert.deepEqual(
+    [...new Set(gallery.map((item) => item.festivalDay))],
+    ['day-1', 'day-2', 'day-3', 'setup'],
+  );
+  assert.equal(gallery.some((item) => item.id === 'tezza-2439'), false, 'duplicate image must stay excluded');
+  assert.equal(gallery.some((item) => item.id === 'untitled-frame'), false, 'blank-named duplicate must stay excluded');
   for (const item of gallery) {
     assert.ok(item.title.length > 6);
     assert.ok(item.alt.length > 20);
     assert.ok(item.width > 0 && item.height > 0);
-    assert.ok((await stat(join(root, item.src))).size > 0);
-    assert.ok((await stat(join(root, item.download))).size > 0);
-    if (item.type === 'video') assert.ok((await stat(join(root, item.poster))).size > 0);
+    assert.ok(['day-1', 'day-2', 'day-3', 'setup'].includes(item.festivalDay));
+    assert.ok(['metadata', 'curated'].includes(item.dateSource));
+    assert.ok(['portrait', 'landscape', 'square'].includes(item.orientation));
+    assert.equal(item.orientation, item.width === item.height ? 'square' : item.width > item.height ? 'landscape' : 'portrait');
+    assert.ok(Number.isFinite(Date.parse(item.capturedAt)));
+    assert.ok((await stat(join(root, item.src.split('?')[0]))).size > 0);
+    assert.ok((await stat(join(root, item.download.split('?')[0]))).size > 0);
+    if (item.type === 'video') assert.ok((await stat(join(root, item.poster.split('?')[0]))).size > 0);
   }
 });
 
@@ -58,12 +69,19 @@ test('gallery layout preserves media proportions and exposes complete controls',
   const gallery = await readFile(join(root, 'assets/js/gallery.js'), 'utf8');
 
   assert.match(css, /\.gallery-grid\s*\{\s*columns:\s*4/);
-  assert.match(css, /\.media-open img\s*\{[^}]*height:\s*auto/s);
+  assert.match(css, /\.media-open img,\s*\.media-preview\s*\{[^}]*height:\s*auto/s);
   assert.match(css, /\.media-card\s*\{[^}]*break-inside:\s*avoid/s);
+  assert.match(css, /\.media-dialog\s*\{[^}]*width:\s*min\(960px/s);
   assert.match(html, /data-dialog-previous/);
   assert.match(html, /data-dialog-next/);
+  assert.match(html, /data-day-filter="day-1"/);
+  assert.match(html, /data-share-platform="instagram"/);
+  assert.match(html, /data-share-platform="tiktok"/);
+  assert.match(html, /data-share-platform="facebook"/);
   assert.match(gallery, /new URLSearchParams\(location\.hash\.slice\(1\)\)/);
   assert.match(gallery, /data-share=/);
+  assert.match(gallery, /video\.play\(\)/);
+  assert.match(gallery, /navigator\.canShare/);
 });
 
 test('preview content is explicitly labelled and excluded from structured claims', async () => {
