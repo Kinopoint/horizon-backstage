@@ -52,3 +52,30 @@ test('privacy-safe release contains no third-party analytics scripts', async () 
   assert.match(await readFile(join(root, 'assets/js/site.js'), 'utf8'), /window\.dataLayer/);
 });
 
+test('gallery layout preserves media proportions and exposes complete controls', async () => {
+  const css = await readFile(join(root, 'assets/css/styles.css'), 'utf8');
+  const html = await readFile(join(root, 'index.html'), 'utf8');
+  const gallery = await readFile(join(root, 'assets/js/gallery.js'), 'utf8');
+
+  assert.match(css, /\.gallery-grid\s*\{\s*columns:\s*4/);
+  assert.match(css, /\.media-open img\s*\{[^}]*height:\s*auto/s);
+  assert.match(css, /\.media-card\s*\{[^}]*break-inside:\s*avoid/s);
+  assert.match(html, /data-dialog-previous/);
+  assert.match(html, /data-dialog-next/);
+  assert.match(gallery, /new URLSearchParams\(location\.hash\.slice\(1\)\)/);
+  assert.match(gallery, /data-share=/);
+});
+
+test('preview content is explicitly labelled and excluded from structured claims', async () => {
+  const home = await readFile(join(root, 'index.html'), 'utf8');
+  const around = await readFile(join(root, 'around-ballybunion/index.html'), 'utf8');
+
+  assert.match(home, /Partner area preview/);
+  assert.match(home, /Demo content/);
+  assert.match(around, /Accommodation preview/);
+  assert.match(around, /Preview only:/);
+  assert.doesNotMatch(
+    [...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => match[1]).join('\n'),
+    /Heineken|White Claw|Orchard Thieves/,
+  );
+});

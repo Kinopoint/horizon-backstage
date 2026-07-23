@@ -98,6 +98,7 @@
       <a href="#gallery">Gallery</a>
       <a href="#story">The weekend</a>
       <a href="around-ballybunion/">Around Ballybunion</a>
+      <a href="#partners">Partners</a>
       <a class="nav-cta" href="https://www.horizonfestival.ie/" target="_blank" rel="noopener">Festival website <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
@@ -165,6 +166,28 @@
       </div>
     </section>
 
+    <section class="demo-section" id="partners" aria-labelledby="partners-title">
+      <div class="shell">
+        <p class="eyebrow dark">Backstage partners</p>
+        <div class="demo-heading">
+          <h2 id="partners-title">Partner area preview</h2>
+          <span class="demo-label">Demo content</span>
+        </div>
+        <p class="demo-note">This is an approved layout example. Partner names and logos will be replaced with the confirmed Horizon 2026 line-up before this section is treated as official.</p>
+        <div class="sponsor-grid lead" aria-label="Example lead partner cards">
+          <div class="sponsor-tile">Heineken</div>
+          <div class="sponsor-tile">White Claw</div>
+          <div class="sponsor-tile">Orchard Thieves</div>
+        </div>
+        <div class="sponsor-grid rest" aria-label="Example supporting partner cards">
+          <div class="sponsor-tile">Birra Moretti</div>
+          <div class="sponsor-tile">X-Lite</div>
+          <div class="sponsor-tile">McMunn's</div>
+          <div class="sponsor-tile">Pioneer DJ</div>
+        </div>
+      </div>
+    </section>
+
     <section class="faq-section" aria-labelledby="faq-title">
       <div class="shell faq-layout">
         <div><p class="eyebrow dark">Good to know</p><h2 id="faq-title">Gallery FAQ</h2></div>
@@ -189,9 +212,13 @@
 
   <dialog class="media-dialog" data-dialog aria-labelledby="dialog-title">
     <button class="dialog-close" type="button" data-dialog-close aria-label="Close media viewer">×</button>
-    <div class="dialog-media" data-dialog-media></div>
+    <div class="dialog-stage">
+      <button class="dialog-nav dialog-prev" type="button" data-dialog-previous aria-label="Previous media">‹</button>
+      <div class="dialog-media" data-dialog-media></div>
+      <button class="dialog-nav dialog-next" type="button" data-dialog-next aria-label="Next media">›</button>
+    </div>
     <div class="dialog-info">
-      <div><p class="eyebrow dark" data-dialog-type>Official media</p><h2 id="dialog-title" data-dialog-title></h2></div>
+      <div><p class="eyebrow dark"><span data-dialog-type>Official media</span> · <span data-dialog-position></span></p><h2 id="dialog-title" data-dialog-title></h2></div>
       <div class="dialog-actions">
         <a class="button button-primary" href="assets/media/full/dji-20260711220414-0346-d.jpg" data-dialog-download download>Download</a>
         <button class="button button-outline" type="button" data-dialog-share>Share</button>

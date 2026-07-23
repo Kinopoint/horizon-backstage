@@ -36,3 +36,20 @@ document.addEventListener('click', (event) => {
   if (tracked) track('cta_clicked', { cta_name: tracked.dataset.track, cta_text: tracked.textContent.trim() });
 });
 
+const stayGrid = document.querySelector('[data-stay-grid]');
+const stayFilters = [...document.querySelectorAll('[data-stay-filter]')];
+if (stayGrid && stayFilters.length) {
+  stayFilters.forEach((button) => button.addEventListener('click', () => {
+    const filter = button.dataset.stayFilter;
+    stayFilters.forEach((candidate) => {
+      const active = candidate === button;
+      candidate.classList.toggle('is-active', active);
+      candidate.setAttribute('aria-pressed', String(active));
+    });
+    [...stayGrid.children].forEach((card) => {
+      card.hidden = filter !== 'all'
+        && (filter === 'seaview' ? card.dataset.seaview !== 'true' : card.dataset.type !== filter);
+    });
+    track('accommodation_demo_filtered', { filter_name: filter });
+  }));
+}
