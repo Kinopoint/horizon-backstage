@@ -1,0 +1,888 @@
+[
+  {
+    "id": "0b4f2bd0-25aa-43e9-8e7b-5bf6415b82c4",
+    "type": "photo",
+    "src": "assets/media/web/0b4f2bd0-25aa-43e9-8e7b-5bf6415b82c4.webp",
+    "download": "assets/media/full/0b4f2bd0-25aa-43e9-8e7b-5bf6415b82c4.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Jenny Greene — deep in the mix",
+    "alt": "Jenny Greene — deep in the mix, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "5436c355-3518-4794-be64-4d0451139ed7",
+    "type": "photo",
+    "src": "assets/media/web/5436c355-3518-4794-be64-4d0451139ed7.webp",
+    "download": "assets/media/full/5436c355-3518-4794-be64-4d0451139ed7.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "On stage with The Circus Ponies",
+    "alt": "On stage with The Circus Ponies, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "576159d7-d976-4179-a847-367b497b1030",
+    "type": "photo",
+    "src": "assets/media/web/576159d7-d976-4179-a847-367b497b1030.webp",
+    "download": "assets/media/full/576159d7-d976-4179-a847-367b497b1030.jpg",
+    "width": 1597,
+    "height": 2400,
+    "title": "Backstage, a minute to stage",
+    "alt": "Backstage, a minute to stage, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "7db6adb8-9cc3-4907-a3ed-7d0101bf006d",
+    "type": "photo",
+    "src": "assets/media/web/7db6adb8-9cc3-4907-a3ed-7d0101bf006d.webp",
+    "download": "assets/media/full/7db6adb8-9cc3-4907-a3ed-7d0101bf006d.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Percussion under the rig",
+    "alt": "Percussion under the rig, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "995edbaf-bcee-40a5-895a-868f6dfc3e72",
+    "type": "photo",
+    "src": "assets/media/web/995edbaf-bcee-40a5-895a-868f6dfc3e72.webp",
+    "download": "assets/media/full/995edbaf-bcee-40a5-895a-868f6dfc3e72.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "The Rising — golden hour",
+    "alt": "The Rising — golden hour, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "9e5ad0f8-7c67-4e3c-92a7-ed202af33d76",
+    "type": "photo",
+    "src": "assets/media/web/9e5ad0f8-7c67-4e3c-92a7-ed202af33d76.webp",
+    "download": "assets/media/full/9e5ad0f8-7c67-4e3c-92a7-ed202af33d76.jpg",
+    "width": 1597,
+    "height": 2400,
+    "title": "Brass in the red light",
+    "alt": "Brass in the red light, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "a70cfe7b-6525-4131-b2f1-db07ba2d03c0",
+    "type": "photo",
+    "src": "assets/media/web/a70cfe7b-6525-4131-b2f1-db07ba2d03c0.webp",
+    "download": "assets/media/full/a70cfe7b-6525-4131-b2f1-db07ba2d03c0.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "The Circus Ponies — trumpet line",
+    "alt": "The Circus Ponies — trumpet line, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "aead8131-f3ec-4a6f-8c0c-d829414ad7d9",
+    "type": "photo",
+    "src": "assets/media/web/aead8131-f3ec-4a6f-8c0c-d829414ad7d9.webp",
+    "download": "assets/media/full/aead8131-f3ec-4a6f-8c0c-d829414ad7d9.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 08",
+    "alt": "Horizon Festival backstage — frame 08, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "b0794460-8ad2-4dd3-8b2c-9ec16d52dd3c",
+    "type": "photo",
+    "src": "assets/media/web/b0794460-8ad2-4dd3-8b2c-9ec16d52dd3c.webp",
+    "download": "assets/media/full/b0794460-8ad2-4dd3-8b2c-9ec16d52dd3c.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Sunset queue at McMunn's",
+    "alt": "Sunset queue at McMunn's, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "dji-20260711220414-0346-d",
+    "type": "photo",
+    "src": "assets/media/web/dji-20260711220414-0346-d.webp",
+    "download": "assets/media/full/dji-20260711220414-0346-d.jpg",
+    "width": 2400,
+    "height": 1350,
+    "title": "Horizon Festival above Ballybunion",
+    "alt": "Horizon Festival above Ballybunion, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "eeadb45b-753c-4f37-bb6d-8e3e3de19aea",
+    "type": "photo",
+    "src": "assets/media/web/eeadb45b-753c-4f37-bb6d-8e3e3de19aea.webp",
+    "download": "assets/media/full/eeadb45b-753c-4f37-bb6d-8e3e3de19aea.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Jenny Greene — closing set",
+    "alt": "Jenny Greene — closing set, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "efb93e84-ab17-4bcc-a215-46d0a2a3f6f7",
+    "type": "photo",
+    "src": "assets/media/web/efb93e84-ab17-4bcc-a215-46d0a2a3f6f7.webp",
+    "download": "assets/media/full/efb93e84-ab17-4bcc-a215-46d0a2a3f6f7.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "DJ Marty Guilfoyle — VW decks",
+    "alt": "DJ Marty Guilfoyle — VW decks, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0193",
+    "type": "photo",
+    "src": "assets/media/web/img-0193.webp",
+    "download": "assets/media/full/img-0193.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Front row on the cliff",
+    "alt": "Front row on the cliff, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0298",
+    "type": "photo",
+    "src": "assets/media/web/img-0298.webp",
+    "download": "assets/media/full/img-0298.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Straight down the mic",
+    "alt": "Straight down the mic, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0515",
+    "type": "photo",
+    "src": "assets/media/web/img-0515.webp",
+    "download": "assets/media/full/img-0515.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 15",
+    "alt": "Horizon Festival backstage — frame 15, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0550",
+    "type": "photo",
+    "src": "assets/media/web/img-0550.webp",
+    "download": "assets/media/full/img-0550.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "White Claw o'clock",
+    "alt": "White Claw o'clock, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0551",
+    "type": "photo",
+    "src": "assets/media/web/img-0551.webp",
+    "download": "assets/media/full/img-0551.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 17",
+    "alt": "Horizon Festival backstage — frame 17, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0823",
+    "type": "photo",
+    "src": "assets/media/web/img-0823.webp",
+    "download": "assets/media/full/img-0823.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Green shades in the crowd",
+    "alt": "Green shades in the crowd, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1261-2",
+    "type": "photo",
+    "src": "assets/media/web/img-1261-2.webp",
+    "download": "assets/media/full/img-1261-2.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Long exposure under the lights",
+    "alt": "Long exposure under the lights, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1401",
+    "type": "photo",
+    "src": "assets/media/web/img-1401.webp",
+    "download": "assets/media/full/img-1401.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Ringmaster of The Circus Ponies",
+    "alt": "Ringmaster of The Circus Ponies, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-6188",
+    "type": "photo",
+    "src": "assets/media/web/img-6188.webp",
+    "download": "assets/media/full/img-6188.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 21",
+    "alt": "Horizon Festival backstage — frame 21, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-6197",
+    "type": "photo",
+    "src": "assets/media/web/img-6197.webp",
+    "download": "assets/media/full/img-6197.jpg",
+    "width": 1755,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 22",
+    "alt": "Horizon Festival backstage — frame 22, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-6398",
+    "type": "photo",
+    "src": "assets/media/web/img-6398.webp",
+    "download": "assets/media/full/img-6398.jpg",
+    "width": 1589,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 23",
+    "alt": "Horizon Festival backstage — frame 23, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-6546",
+    "type": "photo",
+    "src": "assets/media/web/img-6546.webp",
+    "download": "assets/media/full/img-6546.jpg",
+    "width": 1350,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 24",
+    "alt": "Horizon Festival backstage — frame 24, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-6656",
+    "type": "photo",
+    "src": "assets/media/web/img-6656.webp",
+    "download": "assets/media/full/img-6656.jpg",
+    "width": 1597,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 25",
+    "alt": "Horizon Festival backstage — frame 25, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-6687",
+    "type": "photo",
+    "src": "assets/media/web/img-6687.webp",
+    "download": "assets/media/full/img-6687.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Sunset pints with friends",
+    "alt": "Sunset pints with friends, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9480",
+    "type": "photo",
+    "src": "assets/media/web/img-9480.webp",
+    "download": "assets/media/full/img-9480.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "The Circus Ponies — full brass",
+    "alt": "The Circus Ponies — full brass, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9492",
+    "type": "photo",
+    "src": "assets/media/web/img-9492.webp",
+    "download": "assets/media/full/img-9492.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Bingo Loco — crowd goes up",
+    "alt": "Bingo Loco — crowd goes up, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9595",
+    "type": "photo",
+    "src": "assets/media/web/img-9595.webp",
+    "download": "assets/media/full/img-9595.jpg",
+    "width": 1638,
+    "height": 2400,
+    "title": "Best mates at the Big Top",
+    "alt": "Best mates at the Big Top, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9642",
+    "type": "photo",
+    "src": "assets/media/web/img-9642.webp",
+    "download": "assets/media/full/img-9642.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Front of house, Friday",
+    "alt": "Front of house, Friday, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9696",
+    "type": "photo",
+    "src": "assets/media/web/img-9696.webp",
+    "download": "assets/media/full/img-9696.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Saturday session",
+    "alt": "Saturday session, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9772",
+    "type": "photo",
+    "src": "assets/media/web/img-9772.webp",
+    "download": "assets/media/full/img-9772.jpg",
+    "width": 1624,
+    "height": 2400,
+    "title": "Vocals into the smoke",
+    "alt": "Vocals into the smoke, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9803",
+    "type": "photo",
+    "src": "assets/media/web/img-9803.webp",
+    "download": "assets/media/full/img-9803.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 33",
+    "alt": "Horizon Festival backstage — frame 33, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9824",
+    "type": "photo",
+    "src": "assets/media/web/img-9824.webp",
+    "download": "assets/media/full/img-9824.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 34",
+    "alt": "Horizon Festival backstage — frame 34, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9832",
+    "type": "photo",
+    "src": "assets/media/web/img-9832.webp",
+    "download": "assets/media/full/img-9832.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "Horizon Festival backstage — frame 35",
+    "alt": "Horizon Festival backstage — frame 35, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "tezza-2439",
+    "type": "photo",
+    "src": "assets/media/web/tezza-2439.webp",
+    "download": "assets/media/full/tezza-2439.jpg",
+    "width": 1600,
+    "height": 2400,
+    "title": "DJ Marty Guilfoyle — spin",
+    "alt": "DJ Marty Guilfoyle — spin, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "dji-20260709122929-0120-d",
+    "type": "photo",
+    "src": "assets/media/web/dji-20260709122929-0120-d.webp",
+    "download": "assets/media/full/dji-20260709122929-0120-d.jpg",
+    "width": 2400,
+    "height": 1350,
+    "title": "The Big Top beside the Atlantic",
+    "alt": "The Big Top beside the Atlantic, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "dji-20260712140635-0359-d",
+    "type": "photo",
+    "src": "assets/media/web/dji-20260712140635-0359-d.webp",
+    "download": "assets/media/full/dji-20260712140635-0359-d.jpg",
+    "width": 2400,
+    "height": 1350,
+    "title": "Festival site on the Kerry coast",
+    "alt": "Festival site on the Kerry coast, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "dji-20260712141944-0388-d",
+    "type": "photo",
+    "src": "assets/media/web/dji-20260712141944-0388-d.webp",
+    "download": "assets/media/full/dji-20260712141944-0388-d.jpg",
+    "width": 2400,
+    "height": 1350,
+    "title": "Ballybunion from above",
+    "alt": "Ballybunion from above, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "untitled-frame",
+    "type": "photo",
+    "src": "assets/media/web/untitled-frame.webp",
+    "download": "assets/media/full/untitled-frame.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 40",
+    "alt": "Horizon Festival backstage — frame 40, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0029",
+    "type": "photo",
+    "src": "assets/media/web/img-0029.webp",
+    "download": "assets/media/full/img-0029.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 41",
+    "alt": "Horizon Festival backstage — frame 41, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0050",
+    "type": "photo",
+    "src": "assets/media/web/img-0050.webp",
+    "download": "assets/media/full/img-0050.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 42",
+    "alt": "Horizon Festival backstage — frame 42, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0073",
+    "type": "photo",
+    "src": "assets/media/web/img-0073.webp",
+    "download": "assets/media/full/img-0073.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 43",
+    "alt": "Horizon Festival backstage — frame 43, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0077",
+    "type": "photo",
+    "src": "assets/media/web/img-0077.webp",
+    "download": "assets/media/full/img-0077.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 44",
+    "alt": "Horizon Festival backstage — frame 44, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0078",
+    "type": "photo",
+    "src": "assets/media/web/img-0078.webp",
+    "download": "assets/media/full/img-0078.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 45",
+    "alt": "Horizon Festival backstage — frame 45, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0171",
+    "type": "photo",
+    "src": "assets/media/web/img-0171.webp",
+    "download": "assets/media/full/img-0171.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 46",
+    "alt": "Horizon Festival backstage — frame 46, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0504",
+    "type": "photo",
+    "src": "assets/media/web/img-0504.webp",
+    "download": "assets/media/full/img-0504.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 47",
+    "alt": "Horizon Festival backstage — frame 47, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0506",
+    "type": "photo",
+    "src": "assets/media/web/img-0506.webp",
+    "download": "assets/media/full/img-0506.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 48",
+    "alt": "Horizon Festival backstage — frame 48, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0507",
+    "type": "photo",
+    "src": "assets/media/web/img-0507.webp",
+    "download": "assets/media/full/img-0507.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 49",
+    "alt": "Horizon Festival backstage — frame 49, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0540",
+    "type": "photo",
+    "src": "assets/media/web/img-0540.webp",
+    "download": "assets/media/full/img-0540.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 50",
+    "alt": "Horizon Festival backstage — frame 50, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0560",
+    "type": "photo",
+    "src": "assets/media/web/img-0560.webp",
+    "download": "assets/media/full/img-0560.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 51",
+    "alt": "Horizon Festival backstage — frame 51, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0707",
+    "type": "photo",
+    "src": "assets/media/web/img-0707.webp",
+    "download": "assets/media/full/img-0707.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 52",
+    "alt": "Horizon Festival backstage — frame 52, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0708",
+    "type": "photo",
+    "src": "assets/media/web/img-0708.webp",
+    "download": "assets/media/full/img-0708.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 53",
+    "alt": "Horizon Festival backstage — frame 53, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0748",
+    "type": "photo",
+    "src": "assets/media/web/img-0748.webp",
+    "download": "assets/media/full/img-0748.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 54",
+    "alt": "Horizon Festival backstage — frame 54, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0767",
+    "type": "photo",
+    "src": "assets/media/web/img-0767.webp",
+    "download": "assets/media/full/img-0767.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 55",
+    "alt": "Horizon Festival backstage — frame 55, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0781",
+    "type": "photo",
+    "src": "assets/media/web/img-0781.webp",
+    "download": "assets/media/full/img-0781.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 56",
+    "alt": "Horizon Festival backstage — frame 56, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0800",
+    "type": "photo",
+    "src": "assets/media/web/img-0800.webp",
+    "download": "assets/media/full/img-0800.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 57",
+    "alt": "Horizon Festival backstage — frame 57, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0802",
+    "type": "photo",
+    "src": "assets/media/web/img-0802.webp",
+    "download": "assets/media/full/img-0802.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 58",
+    "alt": "Horizon Festival backstage — frame 58, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0806",
+    "type": "photo",
+    "src": "assets/media/web/img-0806.webp",
+    "download": "assets/media/full/img-0806.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 59",
+    "alt": "Horizon Festival backstage — frame 59, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-0810",
+    "type": "photo",
+    "src": "assets/media/web/img-0810.webp",
+    "download": "assets/media/full/img-0810.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 60",
+    "alt": "Horizon Festival backstage — frame 60, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1035",
+    "type": "photo",
+    "src": "assets/media/web/img-1035.webp",
+    "download": "assets/media/full/img-1035.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 61",
+    "alt": "Horizon Festival backstage — frame 61, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1141",
+    "type": "photo",
+    "src": "assets/media/web/img-1141.webp",
+    "download": "assets/media/full/img-1141.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 62",
+    "alt": "Horizon Festival backstage — frame 62, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1142",
+    "type": "photo",
+    "src": "assets/media/web/img-1142.webp",
+    "download": "assets/media/full/img-1142.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 63",
+    "alt": "Horizon Festival backstage — frame 63, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1145",
+    "type": "photo",
+    "src": "assets/media/web/img-1145.webp",
+    "download": "assets/media/full/img-1145.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 64",
+    "alt": "Horizon Festival backstage — frame 64, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1152",
+    "type": "photo",
+    "src": "assets/media/web/img-1152.webp",
+    "download": "assets/media/full/img-1152.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 65",
+    "alt": "Horizon Festival backstage — frame 65, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1159",
+    "type": "photo",
+    "src": "assets/media/web/img-1159.webp",
+    "download": "assets/media/full/img-1159.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 66",
+    "alt": "Horizon Festival backstage — frame 66, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1230",
+    "type": "photo",
+    "src": "assets/media/web/img-1230.webp",
+    "download": "assets/media/full/img-1230.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 67",
+    "alt": "Horizon Festival backstage — frame 67, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1261",
+    "type": "photo",
+    "src": "assets/media/web/img-1261.webp",
+    "download": "assets/media/full/img-1261.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 68",
+    "alt": "Horizon Festival backstage — frame 68, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1443",
+    "type": "photo",
+    "src": "assets/media/web/img-1443.webp",
+    "download": "assets/media/full/img-1443.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 69",
+    "alt": "Horizon Festival backstage — frame 69, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1461",
+    "type": "photo",
+    "src": "assets/media/web/img-1461.webp",
+    "download": "assets/media/full/img-1461.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 70",
+    "alt": "Horizon Festival backstage — frame 70, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1490",
+    "type": "photo",
+    "src": "assets/media/web/img-1490.webp",
+    "download": "assets/media/full/img-1490.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 71",
+    "alt": "Horizon Festival backstage — frame 71, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1491",
+    "type": "photo",
+    "src": "assets/media/web/img-1491.webp",
+    "download": "assets/media/full/img-1491.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 72",
+    "alt": "Horizon Festival backstage — frame 72, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1502",
+    "type": "photo",
+    "src": "assets/media/web/img-1502.webp",
+    "download": "assets/media/full/img-1502.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 73",
+    "alt": "Horizon Festival backstage — frame 73, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1503",
+    "type": "photo",
+    "src": "assets/media/web/img-1503.webp",
+    "download": "assets/media/full/img-1503.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 74",
+    "alt": "Horizon Festival backstage — frame 74, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1507",
+    "type": "photo",
+    "src": "assets/media/web/img-1507.webp",
+    "download": "assets/media/full/img-1507.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 75",
+    "alt": "Horizon Festival backstage — frame 75, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1508",
+    "type": "photo",
+    "src": "assets/media/web/img-1508.webp",
+    "download": "assets/media/full/img-1508.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 76",
+    "alt": "Horizon Festival backstage — frame 76, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1519",
+    "type": "photo",
+    "src": "assets/media/web/img-1519.webp",
+    "download": "assets/media/full/img-1519.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 77",
+    "alt": "Horizon Festival backstage — frame 77, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-1548",
+    "type": "photo",
+    "src": "assets/media/web/img-1548.webp",
+    "download": "assets/media/full/img-1548.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 78",
+    "alt": "Horizon Festival backstage — frame 78, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9582",
+    "type": "photo",
+    "src": "assets/media/web/img-9582.webp",
+    "download": "assets/media/full/img-9582.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 79",
+    "alt": "Horizon Festival backstage — frame 79, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9781",
+    "type": "photo",
+    "src": "assets/media/web/img-9781.webp",
+    "download": "assets/media/full/img-9781.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 80",
+    "alt": "Horizon Festival backstage — frame 80, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9785",
+    "type": "photo",
+    "src": "assets/media/web/img-9785.webp",
+    "download": "assets/media/full/img-9785.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 81",
+    "alt": "Horizon Festival backstage — frame 81, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9801",
+    "type": "photo",
+    "src": "assets/media/web/img-9801.webp",
+    "download": "assets/media/full/img-9801.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 82",
+    "alt": "Horizon Festival backstage — frame 82, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9844",
+    "type": "photo",
+    "src": "assets/media/web/img-9844.webp",
+    "download": "assets/media/full/img-9844.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 83",
+    "alt": "Horizon Festival backstage — frame 83, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9879",
+    "type": "photo",
+    "src": "assets/media/web/img-9879.webp",
+    "download": "assets/media/full/img-9879.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 84",
+    "alt": "Horizon Festival backstage — frame 84, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "img-9903",
+    "type": "photo",
+    "src": "assets/media/web/img-9903.webp",
+    "download": "assets/media/full/img-9903.jpg",
+    "width": 2400,
+    "height": 1600,
+    "title": "Horizon Festival backstage — frame 85",
+    "alt": "Horizon Festival backstage — frame 85, official Horizon Festival Ballybunion 2026 photograph"
+  },
+  {
+    "id": "dji-20260708205542-0111-d",
+    "type": "video",
+    "src": "assets/media/video/dji-20260708205542-0111-d.mp4",
+    "poster": "assets/media/posters/dji-20260708205542-0111-d.webp",
+    "download": "assets/media/video/dji-20260708205542-0111-d.mp4",
+    "width": 1080,
+    "height": 1920,
+    "duration": 18.7,
+    "title": "Big Top aerial film",
+    "alt": "Big Top aerial film, video from Horizon Festival Ballybunion 2026"
+  },
+  {
+    "id": "copy-8d45bb47-ef95-4c2f-9942-51df6b0bc12d",
+    "type": "video",
+    "src": "assets/media/video/copy-8d45bb47-ef95-4c2f-9942-51df6b0bc12d.mp4",
+    "poster": "assets/media/posters/copy-8d45bb47-ef95-4c2f-9942-51df6b0bc12d.webp",
+    "download": "assets/media/video/copy-8d45bb47-ef95-4c2f-9942-51df6b0bc12d.mp4",
+    "width": 1080,
+    "height": 1920,
+    "duration": 21.8,
+    "title": "Backstage vertical film 02",
+    "alt": "Backstage vertical film 02, video from Horizon Festival Ballybunion 2026"
+  },
+  {
+    "id": "copy-a4569cdf-5d61-4df1-91cd-585cf915354a",
+    "type": "video",
+    "src": "assets/media/video/copy-a4569cdf-5d61-4df1-91cd-585cf915354a.mp4",
+    "poster": "assets/media/posters/copy-a4569cdf-5d61-4df1-91cd-585cf915354a.webp",
+    "download": "assets/media/video/copy-a4569cdf-5d61-4df1-91cd-585cf915354a.mp4",
+    "width": 1080,
+    "height": 1920,
+    "duration": 19.1,
+    "title": "Backstage vertical film 01",
+    "alt": "Backstage vertical film 01, video from Horizon Festival Ballybunion 2026"
+  }
+]

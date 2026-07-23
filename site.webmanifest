@@ -1,0 +1,11 @@
+{
+  "name": "Horizon Backstage",
+  "short_name": "Backstage",
+  "description": "Official Horizon Festival Ballybunion 2026 media archive.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f0e7",
+  "theme_color": "#04342c",
+  "icons": [{"src": "assets/brand/favicon.svg", "sizes": "any", "type": "image/svg+xml"}]
+}
+

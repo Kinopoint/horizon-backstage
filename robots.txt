@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kinopoint.github.io/horizon-backstage/sitemap.xml
+
