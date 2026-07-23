@@ -4,7 +4,7 @@ Production-ready static media archive for Horizon Festival Ballybunion 2026.
 
 ## What is included
 
-- Responsive gallery with high-quality photo and video sharing
+- Responsive gallery with 36 curated photo/video moments from the approved phone-edit folder
 - Optimized WebP previews, share-ready JPEG files and H.264 MP4 films
 - Ballybunion guide, privacy and photo-usage pages
 - Metadata, Open Graph, JSON-LD, sitemap and robots rules
@@ -17,10 +17,10 @@ Production-ready static media archive for Horizon Festival Ballybunion 2026.
 ```sh
 npm test
 npm run verify
-npm run media:build -- "/absolute/path/to/horizon foto"
+npm run media:build -- "/absolute/path/to/horiz foto video phone edit"
 ```
 
-The media build prefers edited JPEG/HEIC files, adds top-level drone JPEGs, and then includes RAW CR3 files only when no edited file with the same stem already exists. Camera originals are never modified. Generated previews are capped at 1600 px; share-ready JPEGs are capped at 2400 px. Videos are H.264/AAC MP4 with `faststart` and separate WebP posters.
+The media build reads only the exact source directory passed to it. It prefers edited JPEG/HEIC files and includes a RAW CR3 only when no edited file with the same stem exists. Camera originals are never modified. Old generated media is removed before each build so files from earlier source folders cannot remain in production. Generated previews are capped at 1600 px; share-ready JPEGs are capped at 2400 px. Videos are H.264/AAC MP4 with `faststart` and separate WebP posters. `assets/data/source-manifest.json` records the approved filenames and SHA-256 hashes used by the release.
 
 ## Deployment
 
@@ -34,4 +34,4 @@ Identify the last known-good commit, create a new commit that reverts the faulty
 
 ## Analytics
 
-See [`docs/tracking-plan.md`](docs/tracking-plan.md). No third-party analytics is enabled until an approved ID and consent implementation are available.
+See [`docs/tracking-plan.md`](docs/tracking-plan.md). No third-party marketing analytics is enabled until an approved ID and consent implementation are available. The Cloudflare Worker in `worker/popularity.js` is implemented and tested but remains disabled until its permanent endpoint and privacy terms are approved.

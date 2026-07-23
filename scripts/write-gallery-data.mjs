@@ -97,6 +97,7 @@ const curatedDates = {
   'copy-a4569cdf-5d61-4df1-91cd-585cf915354a': '2026-07-11T16:25:00+01:00',
   'copy-8d45bb47-ef95-4c2f-9942-51df6b0bc12d': '2026-07-11T22:00:00+01:00',
   '9e5ad0f8-7c67-4e3c-92a7-ed202af33d76': '2026-07-11T20:10:00+01:00',
+  'eeadb45b-753c-4f37-bb6d-8e3e3de19aea': '2026-07-11T22:30:00+01:00',
   '576159d7-d976-4179-a847-367b497b1030': '2026-07-12T20:00:00+01:00',
   'efb93e84-ab17-4bcc-a215-46d0a2a3f6f7': '2026-07-12T20:05:00+01:00'
 };
@@ -136,8 +137,12 @@ function eventDate(date) {
 }
 
 const lines = (await readFile(manifestPath, 'utf8')).trim().split('\n').filter(Boolean);
+const sourceManifest = lines.map((line) => {
+  const { id, type, sourceName, sourceSha256 } = JSON.parse(line);
+  return { id, type, sourceName, sourceSha256 };
+});
 const media = lines.map((line) => {
-  const { capturedAtRaw, ...item } = JSON.parse(line);
+  const { capturedAtRaw, sourceName, sourceSha256, ...item } = JSON.parse(line);
   const title = curatedTitles[item.id];
   if (!title) throw new Error(`${item.id}: missing curated title`);
   const curatedDate = curatedDates[item.id];
@@ -171,4 +176,5 @@ const duplicateTitles = media
 if (duplicateTitles.length) throw new Error(`Duplicate titles: ${[...new Set(duplicateTitles)].join(', ')}`);
 
 await writeFile('assets/data/gallery.json', `${JSON.stringify(media, null, 2)}\n`);
+await writeFile('assets/data/source-manifest.json', `${JSON.stringify(sourceManifest, null, 2)}\n`);
 console.log(`Wrote ${media.length} curated gallery records`);

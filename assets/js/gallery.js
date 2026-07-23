@@ -3,6 +3,8 @@ import { track, showToast } from './site.js';
 const galleryElement = document.querySelector('[data-gallery]');
 const dayFilterButtons = [...document.querySelectorAll('[data-day-filter]')];
 const typeFilterButtons = [...document.querySelectorAll('[data-type-filter]')];
+const sortButtons = [...document.querySelectorAll('[data-sort]')];
+const popularityControl = document.querySelector('[data-popularity-control]');
 const dialog = document.querySelector('[data-dialog]');
 const dialogStage = dialog.querySelector('.dialog-stage');
 const dialogMedia = document.querySelector('[data-dialog-media]');
@@ -15,17 +17,26 @@ const shareDialog = document.querySelector('[data-share-dialog]');
 const shareTitle = document.querySelector('[data-share-title]');
 const shareStatus = document.querySelector('[data-share-status]');
 const shareFileButtons = [...shareDialog.querySelectorAll('[data-share-file]')];
+const dialogShareCount = document.querySelector('[data-dialog-share-count]');
+const configuredPopularityApi = document.querySelector('meta[name="popularity-api"]')?.content.replace(/\/$/, '');
+const popularityApi = /^(?:https:\/\/|http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?$)/.test(configuredPopularityApi || '')
+  ? configuredPopularityApi
+  : null;
 const dayOrder = ['day-1', 'day-2', 'day-3', 'setup'];
 
 let media = [];
 let activeDay = 'all';
 let activeType = 'all';
+let activeSort = 'chronological';
 let activeItem = null;
 let sharedItem = null;
 let shareLocation = 'card';
 let swipeStart = null;
 let preparedFile = null;
 let sharePreparationId = 0;
+let popularityReady = false;
+let volatileVisitorToken = null;
+const shareCounts = new Map();
 const galleryResizeObserver = new ResizeObserver((entries) => {
   for (const { target } of entries) sizeGridCard(target);
 });
@@ -51,6 +62,8 @@ function itemMarkup(item) {
     : `<img src="${item.src}" width="${item.width}" height="${item.height}" alt="${alt}" loading="lazy" decoding="async">`;
   const duration = item.type === 'video' ? `<span class="media-duration">${Math.round(item.duration)} sec</span>` : '';
   const play = item.type === 'video' ? '<span class="play-mark" aria-hidden="true">▶</span>' : '';
+  const count = shareCounts.get(item.id) || 0;
+  const countHidden = popularityReady ? '' : ' hidden';
   return `
     <article class="media-card" data-type="${item.type}" data-day="${item.festivalDay}">
       <button class="media-open" type="button" style="--ratio:${ratio}" data-open="${item.id}" aria-label="Open ${alt}">
@@ -59,7 +72,7 @@ function itemMarkup(item) {
         ${play}${duration}
       </button>
       <div class="media-body">
-        <div><p class="media-date">${date}</p><h3>${title}</h3></div>
+        <div><p class="media-date">${date}</p><h3>${title}</h3><p class="share-count" data-share-count="${item.id}" aria-label="${shareCountLabel(count)}"${countHidden}>↗ ${shareCountLabel(count)}</p></div>
         <div class="media-actions">
           <button class="button button-primary" type="button" data-share="${item.id}">Share this moment</button>
         </div>
@@ -68,13 +81,30 @@ function itemMarkup(item) {
 }
 
 function filteredMedia() {
-  return media.filter((item) =>
+  const filtered = media.filter((item) =>
     (activeDay === 'all' || item.festivalDay === activeDay)
     && (activeType === 'all' || item.type === activeType)
   );
+  if (activeSort === 'popular') {
+    filtered.sort((a, b) =>
+      (shareCounts.get(b.id) || 0) - (shareCounts.get(a.id) || 0)
+      || b.capturedAt.localeCompare(a.capturedAt)
+      || a.id.localeCompare(b.id)
+    );
+  }
+  return filtered;
 }
 
 function groupMarkup(items) {
+  if (activeSort === 'popular') {
+    return `<section class="gallery-day" aria-labelledby="gallery-popular">
+      <div class="gallery-day-heading">
+        <h3 id="gallery-popular">Most shared moments</h3>
+        <span>Based on unique share clicks</span>
+      </div>
+      <div class="gallery-grid">${items.map(itemMarkup).join('')}</div>
+    </section>`;
+  }
   const groups = new Map();
   for (const item of items) {
     if (!groups.has(item.festivalDay)) groups.set(item.festivalDay, []);
@@ -135,6 +165,95 @@ function galleryItemUrl(item) {
 
 function shareUrl(item) {
   return new URL(item.sharePath, document.baseURI).href;
+}
+
+function shareCountLabel(count) {
+  return `${count} share ${count === 1 ? 'click' : 'clicks'}`;
+}
+
+function visitorToken() {
+  const key = 'horizon-share-visitor';
+  if (volatileVisitorToken) return volatileVisitorToken;
+  try {
+    let token = localStorage.getItem(key);
+    if (!/^[a-f0-9-]{20,80}$/i.test(token || '')) {
+      token = createVisitorToken();
+      localStorage.setItem(key, token);
+    }
+    return token;
+  } catch {
+    volatileVisitorToken = createVisitorToken();
+    return volatileVisitorToken;
+  }
+}
+
+function createVisitorToken() {
+  if (crypto.randomUUID) return crypto.randomUUID();
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+
+function updateShareCount(itemId, count) {
+  popularityReady = true;
+  shareCounts.set(itemId, count);
+  if (activeSort === 'popular') {
+    render();
+  } else {
+    for (const element of document.querySelectorAll(`[data-share-count="${itemId}"]`)) {
+      element.hidden = false;
+      element.textContent = `↗ ${shareCountLabel(count)}`;
+      element.setAttribute('aria-label', shareCountLabel(count));
+    }
+  }
+  if (activeItem?.id === itemId) {
+    dialogShareCount.hidden = false;
+    dialogShareCount.textContent = shareCountLabel(count);
+  }
+}
+
+async function loadShareCounts() {
+  if (!popularityApi) return;
+  const response = await fetch(`${popularityApi}/v1/share-counts`, {
+    headers: { Accept: 'application/json' }
+  });
+  if (!response.ok) throw new Error(`Share counts request failed: ${response.status}`);
+  const { counts } = await response.json();
+  for (const [itemId, count] of Object.entries(counts)) {
+    if (media.some((item) => item.id === itemId) && Number.isInteger(count) && count >= 0) {
+      shareCounts.set(itemId, count);
+    }
+  }
+  popularityReady = true;
+  popularityControl.hidden = false;
+  render();
+}
+
+async function recordShare(item, platform) {
+  if (!popularityApi) return;
+  const response = await fetch(`${popularityApi}/v1/share-events`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      mediaId: item.id,
+      platform,
+      visitorToken: visitorToken()
+    })
+  });
+  if (!response.ok) throw new Error(`Share count request failed: ${response.status}`);
+  const result = await response.json();
+  updateShareCount(result.mediaId, result.shareCount);
+  track('share_count_recorded', {
+    media_id: item.id,
+    media_type: item.type,
+    share_platform: platform,
+    counted: result.counted
+  });
 }
 
 async function copyText(value) {
@@ -269,6 +388,13 @@ async function shareToPlatform(platform) {
       location: shareLocation
     });
     shareDialog.close();
+    recordShare(item, platform).catch(() => {
+      track('share_count_failed', {
+        media_id: item.id,
+        media_type: item.type,
+        share_platform: platform
+      });
+    });
   } catch (error) {
     if (error.name === 'AbortError') {
       track('share_cancelled', {
@@ -296,6 +422,8 @@ function openItem(item) {
   dialogTitle.textContent = item.title;
   dialogType.textContent = `${item.dayLabel} · ${item.dayDate} · ${item.type === 'video' ? `${Math.round(item.duration)} sec film` : 'Photograph'}`;
   dialogPosition.textContent = `${position + 1} of ${items.length}`;
+  dialogShareCount.hidden = !popularityReady;
+  dialogShareCount.textContent = shareCountLabel(shareCounts.get(item.id) || 0);
   dialogMedia.innerHTML = item.type === 'video'
     ? `<video src="${item.src}" poster="${item.poster}" controls playsinline preload="metadata" aria-label="${escapeHtml(item.alt)}"></video>`
     : `<img src="${item.shareSrc}" width="${item.width}" height="${item.height}" alt="${escapeHtml(item.alt)}">`;
@@ -385,6 +513,17 @@ typeFilterButtons.forEach((button) => button.addEventListener('click', () => {
   track('gallery_filtered', { filter_dimension: 'media_type', filter_name: activeType });
 }));
 
+sortButtons.forEach((button) => button.addEventListener('click', () => {
+  activeSort = button.dataset.sort;
+  for (const candidate of sortButtons) {
+    const active = candidate === button;
+    candidate.classList.toggle('is-active', active);
+    candidate.setAttribute('aria-pressed', String(active));
+  }
+  render();
+  track('gallery_sorted', { sort_name: activeSort });
+}));
+
 document.querySelector('[data-dialog-close]').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', (event) => {
   if (event.target === dialog) dialog.close();
@@ -439,6 +578,12 @@ async function initialize() {
   media = await response.json();
   render();
   openHashItem();
+  if (popularityApi) {
+    loadShareCounts().catch(() => {
+      popularityControl.hidden = true;
+      track('share_counts_failed', { endpoint: 'initial_load' });
+    });
+  }
   track('gallery_loaded', {
     media_count: media.length,
     day_1_count: media.filter((item) => item.festivalDay === 'day-1').length,

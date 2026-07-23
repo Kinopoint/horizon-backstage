@@ -32,9 +32,17 @@ for (const relative of htmlFiles) {
 }
 
 const gallery = JSON.parse(await readFile(join(root, 'assets/data/gallery.json'), 'utf8'));
+const sourceManifest = JSON.parse(await readFile(join(root, 'assets/data/source-manifest.json'), 'utf8'));
 if (gallery.length < 3) failures.push('gallery contains fewer than three media records');
+if (gallery.length !== 36) failures.push(`gallery contains ${gallery.length} records instead of the approved 36`);
 if (new Set(gallery.map((item) => item.id)).size !== gallery.length) failures.push('gallery contains duplicate ids');
 if (new Set(gallery.map((item) => item.title)).size !== gallery.length) failures.push('gallery contains duplicate titles');
+if (sourceManifest.length !== gallery.length) failures.push('source manifest and gallery counts differ');
+if (new Set(sourceManifest.map((item) => item.id)).size !== sourceManifest.length) failures.push('source manifest contains duplicate ids');
+if (new Set(sourceManifest.map((item) => item.sourceSha256)).size !== sourceManifest.length) failures.push('source manifest contains duplicate files');
+if (sourceManifest.map((item) => item.id).sort().join() !== gallery.map((item) => item.id).sort().join()) {
+  failures.push('source manifest and gallery ids differ');
+}
 const dayOrder = { 'day-1': 1, 'day-2': 2, 'day-3': 3, setup: 4 };
 let previousSortKey = '';
 for (const item of gallery) {

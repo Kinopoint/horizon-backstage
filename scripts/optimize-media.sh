@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SOURCE_ROOT="${1:-/Users/kinopoint/Downloads/horizon foto}"
-EDITED_DIR="$SOURCE_ROOT/horiz foto video phone edit"
+SOURCE_DIR="${1:-/Users/kinopoint/Downloads/horizon foto/horiz foto video phone edit}"
 OUTPUT_ROOT="assets/media"
 FULL_DIR="$OUTPUT_ROOT/full"
 WEB_DIR="$OUTPUT_ROOT/web"
@@ -14,6 +13,11 @@ USED_STEMS="$WORK_DIR/stems.txt"
 MANIFEST="$WORK_DIR/manifest.ndjson"
 
 trap 'rm -rf "$WORK_DIR"' EXIT
+if [[ ! -d "$SOURCE_DIR" ]]; then
+  printf 'Media source directory does not exist: %s\n' "$SOURCE_DIR" >&2
+  exit 1
+fi
+rm -rf "$OUTPUT_ROOT"
 mkdir -p "$FULL_DIR" "$WEB_DIR" "$VIDEO_DIR" "$POSTER_DIR" assets/data
 : > "$SOURCE_LIST"
 : > "$USED_STEMS"
@@ -50,13 +54,10 @@ capture_date() {
 }
 
 while IFS= read -r -d '' file; do add_still "$file"; done < <(
-  find "$EDITED_DIR" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.heic' \) -print0 | sort -z
+  find "$SOURCE_DIR" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.heic' \) -print0 | sort -z
 )
 while IFS= read -r -d '' file; do add_still "$file"; done < <(
-  find "$SOURCE_ROOT" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' \) -print0 | sort -z
-)
-while IFS= read -r -d '' file; do add_still "$file"; done < <(
-  find "$SOURCE_ROOT" -maxdepth 1 -type f -iname '*.cr3' -print0 | sort -z
+  find "$SOURCE_DIR" -maxdepth 1 -type f -iname '*.cr3' -print0 | sort -z
 )
 
 while IFS='|' read -r slug source; do
@@ -79,7 +80,9 @@ while IFS='|' read -r slug source; do
   width="$(sips -g pixelWidth "$full" 2>/dev/null | awk '/pixelWidth/{print $2}')"
   height="$(sips -g pixelHeight "$full" 2>/dev/null | awk '/pixelHeight/{print $2}')"
   captured_at="$(capture_date "$source")"
-  printf '{"id":"%s","type":"photo","src":"assets/media/web/%s.webp?v=2","shareSrc":"assets/media/full/%s.jpg?v=2","width":%s,"height":%s,"capturedAtRaw":"%s"}\n' "$slug" "$slug" "$slug" "$width" "$height" "$captured_at" >> "$MANIFEST"
+  source_hash="$(shasum -a 256 "$source" | awk '{print $1}')"
+  source_name="$(basename "$source")"
+  printf '{"id":"%s","type":"photo","src":"assets/media/web/%s.webp?v=3","shareSrc":"assets/media/full/%s.jpg?v=3","width":%s,"height":%s,"capturedAtRaw":"%s","sourceName":"%s","sourceSha256":"%s"}\n' "$slug" "$slug" "$slug" "$width" "$height" "$captured_at" "$source_name" "$source_hash" >> "$MANIFEST"
 done < "$SOURCE_LIST"
 
 video_index=0
@@ -100,8 +103,10 @@ while IFS= read -r -d '' source; do
   width="${dims%x*}"
   height="${dims#*x}"
   captured_at="$(capture_date "$source")"
-  printf '{"id":"%s","type":"video","src":"assets/media/video/%s.mp4?v=2","poster":"assets/media/posters/%s.webp?v=2","shareSrc":"assets/media/video/%s.mp4?v=2","width":%s,"height":%s,"duration":%s,"capturedAtRaw":"%s"}\n' "$slug" "$slug" "$slug" "$slug" "$width" "$height" "$duration" "$captured_at" >> "$MANIFEST"
-done < <(find "$EDITED_DIR" -maxdepth 1 -type f \( -iname '*.mov' -o -iname '*.mp4' -o -iname '*.m4v' \) -print0 | sort -z)
+  source_hash="$(shasum -a 256 "$source" | awk '{print $1}')"
+  source_name="$(basename "$source")"
+  printf '{"id":"%s","type":"video","src":"assets/media/video/%s.mp4?v=3","poster":"assets/media/posters/%s.webp?v=3","shareSrc":"assets/media/video/%s.mp4?v=3","width":%s,"height":%s,"duration":%s,"capturedAtRaw":"%s","sourceName":"%s","sourceSha256":"%s"}\n' "$slug" "$slug" "$slug" "$slug" "$width" "$height" "$duration" "$captured_at" "$source_name" "$source_hash" >> "$MANIFEST"
+done < <(find "$SOURCE_DIR" -maxdepth 1 -type f \( -iname '*.mov' -o -iname '*.mp4' -o -iname '*.m4v' \) -print0 | sort -z)
 
 node scripts/write-gallery-data.mjs "$MANIFEST"
 du -sh "$OUTPUT_ROOT"

@@ -88,6 +88,7 @@ button { font: inherit; }
 .media-body { padding: 14px; display: flex; flex-direction: column; gap: 13px; }
 .media-date { margin: 0 0 4px; color: #08725a; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .media-body h3 { margin: 0; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.35; }
+.share-count { margin: 8px 0 0; color: var(--muted); font-size: 11px; font-weight: 600; }
 .media-actions { display: flex; gap: 8px; }
 .media-actions .button { min-height: 42px; padding: 0 12px; flex: 1; font-size: 12px; }
 .media-actions .button:hover { transform: none; }
@@ -140,7 +141,8 @@ button { font: inherit; }
 .dialog-info { position: relative; z-index: 4; min-height: 96px; padding: 14px 20px 16px; display: flex; flex: none; justify-content: space-between; align-items: center; gap: 18px; background: var(--paper); }
 .dialog-info .eyebrow { margin-bottom: 6px; }
 .dialog-info h2 { margin: 0; color: var(--ocean); font-size: clamp(20px, 3vw, 28px); }
-.dialog-actions { display: flex; gap: 8px; flex: none; }
+.dialog-actions { display: flex; align-items: center; gap: 10px; flex: none; }
+.dialog-share-count { color: var(--muted); font-size: 12px; font-weight: 600; white-space: nowrap; }
 .share-dialog { width: min(650px, calc(100% - 32px)); padding: 32px; border: 0; border-radius: 20px; color: var(--ink); background: var(--paper); box-shadow: 0 30px 90px rgba(0,0,0,.45); }
 .share-dialog::backdrop { background: rgba(1,20,16,.8); backdrop-filter: blur(7px); }
 .share-dialog .eyebrow { margin-bottom: 8px; }
@@ -288,6 +290,7 @@ button { font: inherit; }
   .dialog-info .eyebrow { margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 9px; }
   .dialog-info h2 { display: -webkit-box; overflow: hidden; font-size: 17px; line-height: 1.15; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
   .dialog-actions { width: auto; }
+  .dialog-share-count { display: none; }
   .dialog-actions .button { min-height: 42px; padding-inline: 14px; white-space: nowrap; }
   .share-dialog { padding: 26px 18px 20px; }
   .share-options { grid-template-columns: 1fr; }

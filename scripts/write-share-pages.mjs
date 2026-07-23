@@ -73,7 +73,7 @@ for (const item of gallery) {
   <meta name="theme-color" content="#04342c">
   <link rel="canonical" href="${escapeHtml(canonical)}">
   <link rel="icon" href="../../assets/brand/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../../assets/css/styles.css?v=8">
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=9">
   <meta property="og:type" content="${item.type === 'video' ? 'video.other' : 'article'}">
   <meta property="og:site_name" content="Horizon Backstage">
   <meta property="og:title" content="${escapeHtml(item.title)}">

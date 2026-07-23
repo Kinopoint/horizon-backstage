@@ -33,11 +33,22 @@ test('all fragment links target an existing id', async () => {
 
 test('gallery records are curated, unique and point to share-ready media', async () => {
   const gallery = JSON.parse(await readFile(join(root, 'assets/data/gallery.json'), 'utf8'));
-  assert.equal(gallery.length, 82);
+  const sourceManifest = JSON.parse(await readFile(join(root, 'assets/data/source-manifest.json'), 'utf8'));
+  assert.equal(gallery.length, 36);
+  assert.equal(sourceManifest.length, gallery.length);
   assert.ok(gallery.some((item) => item.type === 'photo'));
   assert.equal(gallery.filter((item) => item.type === 'video').length, 3);
   assert.equal(new Set(gallery.map((item) => item.id)).size, gallery.length);
   assert.equal(new Set(gallery.map((item) => item.title)).size, gallery.length);
+  assert.deepEqual(
+    sourceManifest.map(({ id }) => id).sort(),
+    gallery.map(({ id }) => id).sort(),
+  );
+  assert.equal(new Set(sourceManifest.map(({ sourceSha256 }) => sourceSha256)).size, sourceManifest.length);
+  for (const source of sourceManifest) {
+    assert.match(source.sourceName, /\.(?:jpe?g|heic|mov|mp4)$/i);
+    assert.match(source.sourceSha256, /^[a-f0-9]{64}$/);
+  }
   assert.deepEqual(
     [...new Set(gallery.map((item) => item.festivalDay))],
     ['day-1', 'day-2', 'day-3', 'setup'],
