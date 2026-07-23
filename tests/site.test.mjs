@@ -69,9 +69,11 @@ test('gallery layout preserves media proportions and exposes complete controls',
   const gallery = await readFile(join(root, 'assets/js/gallery.js'), 'utf8');
 
   assert.match(css, /\.gallery-grid\s*\{\s*columns:\s*4/);
-  assert.match(css, /\.media-open img,\s*\.media-preview\s*\{[^}]*height:\s*auto/s);
+  assert.match(css, /\.media-open img\s*\{[^}]*height:\s*auto;[^}]*object-fit:\s*contain/s);
+  assert.match(css, /\.media-preview\s*\{[^}]*object-fit:\s*contain/s);
   assert.match(css, /\.media-card\s*\{[^}]*break-inside:\s*avoid/s);
-  assert.match(css, /\.media-dialog\s*\{[^}]*width:\s*min\(960px/s);
+  assert.match(css, /\.media-dialog\s*\{[^}]*width:\s*min\(640px/s);
+  assert.match(css, /\.dialog-media img,\s*\.dialog-media video\s*\{[^}]*position:\s*absolute;[^}]*width:\s*100%;[^}]*height:\s*100%;[^}]*object-fit:\s*contain/s);
   assert.match(html, /data-dialog-previous/);
   assert.match(html, /data-dialog-next/);
   assert.match(html, /data-day-filter="day-1"/);
@@ -81,7 +83,11 @@ test('gallery layout preserves media proportions and exposes complete controls',
   assert.match(gallery, /new URLSearchParams\(location\.hash\.slice\(1\)\)/);
   assert.match(gallery, /data-share=/);
   assert.match(gallery, /video\.play\(\)/);
+  assert.match(gallery, /addEventListener\('mouseenter'/);
+  assert.match(gallery, /addEventListener\('mouseleave'/);
   assert.match(gallery, /navigator\.canShare/);
+  assert.doesNotMatch(gallery, /filtered\.slice/);
+  assert.doesNotMatch(gallery, /reducedMotion\.matches/);
 });
 
 test('preview content is explicitly labelled and excluded from structured claims', async () => {

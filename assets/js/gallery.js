@@ -3,7 +3,6 @@ import { track, showToast } from './site.js';
 const galleryElement = document.querySelector('[data-gallery]');
 const dayFilterButtons = [...document.querySelectorAll('[data-day-filter]')];
 const typeFilterButtons = [...document.querySelectorAll('[data-type-filter]')];
-const showMoreButton = document.querySelector('[data-show-more]');
 const dialog = document.querySelector('[data-dialog]');
 const dialogMedia = document.querySelector('[data-dialog-media]');
 const dialogTitle = document.querySelector('[data-dialog-title]');
@@ -15,15 +14,11 @@ const dialogNext = document.querySelector('[data-dialog-next]');
 const shareDialog = document.querySelector('[data-share-dialog]');
 const shareTitle = document.querySelector('[data-share-title]');
 const shareDownload = document.querySelector('[data-share-download]');
-const pageSize = 24;
 const dayOrder = ['day-1', 'day-2', 'day-3', 'setup'];
-const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const hoverPlayback = matchMedia('(hover: hover) and (pointer: fine)');
 
 let media = [];
 let activeDay = 'all';
 let activeType = 'all';
-let visibleLimit = pageSize;
 let activeItem = null;
 let sharedItem = null;
 let shareLocation = 'card';
@@ -45,7 +40,7 @@ function itemMarkup(item) {
   const day = escapeHtml(item.dayLabel);
   const date = escapeHtml(item.dayDate);
   const mediaPreview = item.type === 'video'
-    ? `<video class="media-preview" src="${item.src}" poster="${item.poster}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
+    ? `<video class="media-preview" src="${item.src}" poster="${item.poster}" muted loop playsinline preload="auto" aria-hidden="true"></video>`
     : `<img src="${item.src}" width="${item.width}" height="${item.height}" alt="${alt}" loading="lazy" decoding="async">`;
   const duration = item.type === 'video' ? `<span class="media-duration">${Math.round(item.duration)} sec</span>` : '';
   const play = item.type === 'video' ? '<span class="play-mark" aria-hidden="true">▶</span>' : '';
@@ -99,14 +94,12 @@ function groupMarkup(items) {
 
 function render() {
   const filtered = filteredMedia();
-  const visible = filtered.slice(0, visibleLimit);
-  galleryElement.innerHTML = visible.length
-    ? groupMarkup(visible)
+  galleryElement.innerHTML = filtered.length
+    ? groupMarkup(filtered)
     : '<p class="gallery-loading">No moments match these filters.</p>';
-  document.querySelector('[data-visible-count]').textContent = String(visible.length);
+  bindVideoPreviews();
+  document.querySelector('[data-visible-count]').textContent = String(filtered.length);
   document.querySelector('[data-total-count]').textContent = String(filtered.length);
-  showMoreButton.hidden = visible.length >= filtered.length;
-  showMoreButton.textContent = `Show more · ${Math.min(pageSize, filtered.length - visible.length)}`;
 }
 
 function itemUrl(item) {
@@ -188,7 +181,7 @@ async function shareToPlatform(platform) {
         showToast('Sharing is unavailable; link copied instead');
       }
     } else {
-      const shouldShareFile = hoverPlayback.matches === false;
+      const shouldShareFile = matchMedia('(pointer: coarse)').matches;
       const shared = shouldShareFile && await nativeShare(item, platform);
       if (!shared) {
         const destination = platform === 'instagram' ? 'https://www.instagram.com/' : 'https://www.tiktok.com/upload';
@@ -253,19 +246,27 @@ function setFilter(buttons, selected, property) {
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
   }
-  visibleLimit = pageSize;
   render();
 }
 
-function previewVideo(card, play) {
-  if (!hoverPlayback.matches || reducedMotion.matches) return;
-  const video = card?.querySelector('[data-type="video"] .media-preview, .media-preview');
-  if (!video) return;
+function previewVideo(video, play) {
   if (play) {
     video.play().catch(() => undefined);
   } else {
     video.pause();
     video.currentTime = 0;
+  }
+}
+
+function bindVideoPreviews() {
+  for (const video of galleryElement.querySelectorAll('.media-preview')) {
+    const card = video.closest('.media-card');
+    card.addEventListener('mouseenter', () => previewVideo(video, true));
+    card.addEventListener('mouseleave', () => previewVideo(video, false));
+    card.addEventListener('focusin', () => previewVideo(video, true));
+    card.addEventListener('focusout', (event) => {
+      if (!card.contains(event.relatedTarget)) previewVideo(video, false);
+    });
   }
 }
 
@@ -287,20 +288,6 @@ galleryElement.addEventListener('click', (event) => {
   }
 });
 
-galleryElement.addEventListener('pointerover', (event) => {
-  const card = event.target.closest('.media-card');
-  if (card && !card.contains(event.relatedTarget)) previewVideo(card, true);
-});
-galleryElement.addEventListener('pointerout', (event) => {
-  const card = event.target.closest('.media-card');
-  if (card && !card.contains(event.relatedTarget)) previewVideo(card, false);
-});
-galleryElement.addEventListener('focusin', (event) => previewVideo(event.target.closest('.media-card'), true));
-galleryElement.addEventListener('focusout', (event) => {
-  const card = event.target.closest('.media-card');
-  if (card && !card.contains(event.relatedTarget)) previewVideo(card, false);
-});
-
 dayFilterButtons.forEach((button) => button.addEventListener('click', () => {
   activeDay = button.dataset.dayFilter;
   setFilter(dayFilterButtons, activeDay, 'dayFilter');
@@ -311,12 +298,6 @@ typeFilterButtons.forEach((button) => button.addEventListener('click', () => {
   setFilter(typeFilterButtons, activeType, 'typeFilter');
   track('gallery_filtered', { filter_dimension: 'media_type', filter_name: activeType });
 }));
-
-showMoreButton.addEventListener('click', () => {
-  visibleLimit += pageSize;
-  render();
-  track('gallery_more_loaded', { festival_day: activeDay, media_type: activeType, visible_count: visibleLimit });
-});
 
 document.querySelector('[data-dialog-close]').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });

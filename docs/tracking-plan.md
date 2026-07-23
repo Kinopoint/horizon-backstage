@@ -8,7 +8,6 @@ The production preview does not send analytics data or install cookies. It emits
 | --- | --- | --- | --- |
 | `gallery_loaded` | Validate archive delivery | `media_count`, `day_1_count`, `day_2_count`, `day_3_count`, `page_path` | Gallery JSON loads |
 | `gallery_filtered` | Learn which day and format visitors want | `filter_dimension`, `filter_name`, `page_path` | Day or media filter selected |
-| `gallery_more_loaded` | Measure archive depth | `festival_day`, `media_type`, `visible_count` | More media displayed |
 | `media_opened` | Measure viewing intent | `media_id`, `media_type`, `media_title`, `festival_day` | Lightbox opens |
 | `media_downloaded` | Primary conversion | `media_id`, `media_type`, `media_title`, `location` | Download selected |
 | `share_menu_opened` | Measure sharing intent | `media_id`, `media_type`, `location` | Visible platform menu opens |

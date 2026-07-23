@@ -13,7 +13,8 @@ for (const relative of htmlFiles) {
   const hrefs = [...html.matchAll(/(?:href|src)="([^"#][^"]*)"/g)].map((match) => match[1]);
   for (const href of hrefs) {
     if (/^(?:https?:|mailto:|data:)/.test(href) || href.includes('${')) continue;
-    const [localPath, fragment] = href.split('#');
+    const [pathAndQuery, fragment] = href.split('#');
+    const [localPath] = pathAndQuery.split('?');
     if (!localPath) continue;
     const target = localPath.startsWith('/') ? join(root, localPath) : resolve(join(root, relative, '..'), localPath);
     const candidates = extname(target) ? [target] : [target, join(target, 'index.html')];
