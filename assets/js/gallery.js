@@ -40,7 +40,7 @@ function itemMarkup(item) {
   const day = escapeHtml(item.dayLabel);
   const date = escapeHtml(item.dayDate);
   const mediaPreview = item.type === 'video'
-    ? `<video class="media-preview" src="${item.src}" poster="${item.poster}" muted loop playsinline preload="auto" aria-hidden="true"></video>`
+    ? `<video class="media-preview" src="${item.src}" poster="${item.poster}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`
     : `<img src="${item.src}" width="${item.width}" height="${item.height}" alt="${alt}" loading="lazy" decoding="async">`;
   const duration = item.type === 'video' ? `<span class="media-duration">${Math.round(item.duration)} sec</span>` : '';
   const play = item.type === 'video' ? '<span class="play-mark" aria-hidden="true">▶</span>' : '';
@@ -251,6 +251,7 @@ function setFilter(buttons, selected, property) {
 
 function previewVideo(video, play) {
   if (play) {
+    video.preload = 'auto';
     video.play().catch(() => undefined);
   } else {
     video.pause();
